@@ -58,6 +58,7 @@ public class AMazeActivity extends AppCompatActivity {
      */
     private void setSpinner(){
         algorithmSpinner = (Spinner) findViewById(R.id.spinner_maze);
+        // set up spinner list for generating algorithms
         List<String> algorithmList = new ArrayList<String>();
         algorithmList.add("DFS");
         algorithmList.add("Prim");

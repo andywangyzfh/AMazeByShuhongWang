@@ -57,7 +57,7 @@
 
     <Spinner
         android:id="@+id/spinner_maze"
-        android:layout_width="223dp"
+        android:layout_width="133dp"
         android:layout_height="38dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/textView5"
