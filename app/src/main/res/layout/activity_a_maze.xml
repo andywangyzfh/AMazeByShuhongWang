@@ -34,7 +34,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="16dp"
         android:max="9"
-        android:progress="3"
+        android:progress="1"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -42,7 +42,7 @@
         android:id="@+id/txt_difficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Difficulty: "
+        android:text="Difficulty: 1/9"
         app:layout_constraintStart_toStartOf="@+id/sb_difficulty"
         app:layout_constraintTop_toBottomOf="@+id/sb_difficulty" />
 
@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_difficulty" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinner_maze"
         android:layout_width="223dp"
         android:layout_height="38dp"
         android:layout_marginTop="16dp"
@@ -69,6 +69,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Generate with rooms"
-        app:layout_constraintStart_toStartOf="@+id/spinner"
-        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+        app:layout_constraintStart_toStartOf="@+id/spinner_maze"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_maze" />
+
+    <Button
+        android:id="@+id/button_revisit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="32dp"
+        android:text="Revisit"
+        app:layout_constraintEnd_toStartOf="@+id/button_explore"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_rooms" />
+
+    <Button
+        android:id="@+id/button_explore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginRight="76dp"
+        android:text="Explore"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_rooms" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

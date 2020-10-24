@@ -9,14 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".gui.LosingActivity"></activity>
+        <activity android:name=".gui.WinningActivity" />
+        <activity android:name=".gui.PlayAnimationActivity" />
+        <activity android:name=".gui.PlayManuallyActivity" />
+        <activity android:name=".gui.GeneratingActivity" />
         <activity android:name=".gui.AMazeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
