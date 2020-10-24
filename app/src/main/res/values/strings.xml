@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">AMazeByShuhongWang</string>
+    <string name="edit_message">Enter the message</string>
+    <string name="Button_send">Send</string>
+    <string name="welcome">Welcome to the Maze!</string>
 </resources>
