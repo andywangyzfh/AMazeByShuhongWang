@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -84,6 +85,7 @@ public class GeneratingActivity extends AppCompatActivity {
         txtProgress = (TextView) findViewById(R.id.txt_progress);
         progressBar.setProgress(0);
         progressBar.setMax(100);
+        final Handler handler = new Handler();
 
         // Start a thread for testing in project 6.
         new Thread(new Runnable() {
@@ -96,8 +98,12 @@ public class GeneratingActivity extends AppCompatActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    progressBar.setProgress(progress);
-                    txtProgress.setText(String.valueOf(progress) + "%");
+                    handler.post(new Runnable() {
+                        public void run() {
+                            progressBar.setProgress(progress);
+                            txtProgress.setText(String.valueOf(progress) + "%");
+                        }
+                    });
                 }
             }
         }).start();
