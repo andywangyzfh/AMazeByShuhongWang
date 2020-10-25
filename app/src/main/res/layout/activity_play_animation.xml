@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/pbEnergy"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -73,8 +73,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Energy Remaining: "
-        app:layout_constraintStart_toStartOf="@+id/progressBar2"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
+        app:layout_constraintStart_toStartOf="@+id/pbEnergy"
+        app:layout_constraintTop_toBottomOf="@+id/pbEnergy" />
 
     <TextView
         android:id="@+id/textView11"
@@ -86,9 +86,11 @@
         app:layout_constraintTop_toBottomOf="@+id/txtEnergy" />
 
     <SeekBar
-        android:id="@+id/seekBar"
+        android:id="@+id/sbSpeed"
         android:layout_width="205dp"
         android:layout_height="18dp"
+        android:max="9"
+        android:progress="1"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
@@ -106,11 +108,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Go2Losing"
-        app:layout_constraintEnd_toEndOf="@+id/progressBar2"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintEnd_toEndOf="@+id/pbEnergy"
+        app:layout_constraintTop_toBottomOf="@+id/sbSpeed" />
 
     <ToggleButton
-        android:id="@+id/toggleButton3"
+        android:id="@+id/tbPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -169,5 +171,14 @@
         android:text="BackSensor"
         app:layout_constraintStart_toStartOf="@+id/txtForwardSensor"
         app:layout_constraintTop_toBottomOf="@+id/txtForwardSensor" />
+
+    <TextView
+        android:id="@+id/txtSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        app:layout_constraintEnd_toEndOf="@+id/sbSpeed"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toBottomOf="@+id/sbSpeed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
