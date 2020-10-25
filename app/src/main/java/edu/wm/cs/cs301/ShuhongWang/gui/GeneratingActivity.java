@@ -2,8 +2,10 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -14,11 +16,16 @@ import edu.wm.cs.cs301.ShuhongWang.R;
 public class GeneratingActivity extends AppCompatActivity {
     private Spinner spinnerDriver;
     private Spinner spinnerRobot;
+    private ProgressBar progressBar;
+    private int progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generating);
+
+        Intent intent = getIntent();
+
 
         setSpinners();
     }
