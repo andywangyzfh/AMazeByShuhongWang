@@ -6,4 +6,168 @@
     android:layout_height="match_parent"
     tools:context=".gui.PlayAnimationActivity">
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Show map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/tbMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ToggleButton"
+        app:layout_constraintEnd_toEndOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbMap">
+
+        <TextView
+            android:id="@+id/txtMaze"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonZoomIn"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:text="+"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <Button
+        android:id="@+id/buttonZoomOut"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:text="-"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/buttonZoomOut" />
+
+    <TextView
+        android:id="@+id/txtEnergy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Energy Remaining: "
+        app:layout_constraintStart_toStartOf="@+id/progressBar2"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar2" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Speed: "
+        app:layout_constraintStart_toStartOf="@+id/txtEnergy"
+        app:layout_constraintTop_toBottomOf="@+id/txtEnergy" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="205dp"
+        android:layout_height="18dp"
+        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+    <Button
+        android:id="@+id/Go2Winning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go2Winning"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/Go2Losing" />
+
+    <Button
+        android:id="@+id/Go2Losing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Go2Losing"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar2"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="ToggleButton"
+        app:layout_constraintEnd_toEndOf="@+id/textView13"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start animation"
+        app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sensor status:"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="278dp" />
+
+    <TextView
+        android:id="@+id/txtLeftSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="LeftSensor"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <TextView
+        android:id="@+id/txtRightSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RightSensor"
+        app:layout_constraintStart_toStartOf="@+id/txtLeftSensor"
+        app:layout_constraintTop_toBottomOf="@+id/txtLeftSensor" />
+
+    <TextView
+        android:id="@+id/txtForwardSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ForwardSensor"
+        app:layout_constraintStart_toStartOf="@+id/txtRightSensor"
+        app:layout_constraintTop_toBottomOf="@+id/txtRightSensor" />
+
+    <TextView
+        android:id="@+id/txtBackSensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BackSensor"
+        app:layout_constraintStart_toStartOf="@+id/txtForwardSensor"
+        app:layout_constraintTop_toBottomOf="@+id/txtForwardSensor" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
