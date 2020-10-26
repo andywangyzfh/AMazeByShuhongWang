@@ -32,9 +32,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_play_manually);
+        setContentView(R.layout.activity_play_animation);
 
-        txtMaze = (TextView) findViewById(R.id.txt_maze);
+        txtMaze = (TextView) findViewById(R.id.txtMaze);
         setTogglePause();
         setToggleMap();
         setButtonZoomIn();
@@ -70,7 +70,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      * Set up the toggle button to toggle the map.
      */
     private void setToggleMap() {
-        map = (ToggleButton) findViewById(R.id.tb_map);
+        map = (ToggleButton) findViewById(R.id.tbMap);
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +90,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      * Set up the button to zoom in.
      */
     private void setButtonZoomIn() {
-        zoomIn = (Button) findViewById(R.id.button_zoomIn);
+        zoomIn = (Button) findViewById(R.id.buttonZoomIn);
         zoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +104,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      * Set up the button to zoom out.
      */
     private void setButtonZoomOut() {
-        zoomOut = (Button) findViewById(R.id.button_zoomOut);
+        zoomOut = (Button) findViewById(R.id.buttonZoomOut);
         zoomOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,6 +143,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         energy = (ProgressBar) findViewById(R.id.pbEnergy);
         txtEnergy = (TextView) findViewById(R.id.txtEnergy);
         energy.setMax(3500);
+        energy.setProgress(3500);
         txtEnergy.setText("Remaining energy: 3500");
     }
 

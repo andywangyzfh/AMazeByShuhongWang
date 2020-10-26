@@ -38,6 +38,8 @@ public class GeneratingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generating);
 
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Get settings from the previous state.
         Intent intent = getIntent();
         builder = intent.getStringExtra("algorithm");
@@ -94,7 +96,7 @@ public class GeneratingActivity extends AppCompatActivity {
                 while (progress < 100){
                     progress++;
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -158,6 +160,13 @@ public class GeneratingActivity extends AppCompatActivity {
         intent.putExtra("driver", driver);
         intent.putExtra("robot", robot);
         Log.v(log, "Started PlayAnimationActivity. ");
+        startActivity(intent);
+        finish();
+    }
+
+    public void onBackPressed(){
+        Intent intent = new Intent(this, AMazeActivity.class);
+        Log.v(log, "Go back to title page");
         startActivity(intent);
         finish();
     }

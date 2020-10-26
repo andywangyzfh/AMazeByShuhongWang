@@ -27,8 +27,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +106,7 @@
         android:id="@+id/Go2Losing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Go2Losing"
         app:layout_constraintEnd_toEndOf="@+id/pbEnergy"
         app:layout_constraintTop_toBottomOf="@+id/sbSpeed" />
@@ -136,8 +136,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Sensor status:"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="278dp" />
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtLeftSensor"
