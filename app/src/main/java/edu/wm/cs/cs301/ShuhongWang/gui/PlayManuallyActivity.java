@@ -215,4 +215,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Set up the back button.
+     */
+    public void onBackPressed(){
+        Intent intent = new Intent(this, AMazeActivity.class);
+        Log.v(log, "Go back to title page");
+        startActivity(intent);
+        finish();
+    }
 }
