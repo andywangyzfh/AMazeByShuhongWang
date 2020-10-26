@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,11 +11,14 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import edu.wm.cs.cs301.ShuhongWang.R;
 
 public class PlayAnimationActivity extends AppCompatActivity {
+    private String driver;
+    private String robot;
     private ToggleButton pause;
     private ToggleButton map;
     private Button zoomIn;
@@ -25,6 +29,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
     private TextView txtSpeed;
     private ProgressBar energy;
     private TextView txtEnergy;
+    private TextView leftSensor;
+    private TextView rightSensor;
+    private TextView forwardSensor;
+    private TextView backSensor;
 
     private String log = "PlayAnimationActivity";
     private TextView txtMaze;
@@ -43,6 +51,14 @@ public class PlayAnimationActivity extends AppCompatActivity {
         setProgressBarEnergy();
         setButtonGo2Winning();
         setButtonGo2Losing();
+        setSensorStatus();
+
+        Intent intent = getIntent();
+        robot = intent.getStringExtra("robot");
+        driver = intent.getStringExtra("driver");
+        Log.v(log, "Received robot: " + robot);
+        Log.v(log, "Received driver: " + driver);
+        Toast.makeText(this, "Received driver: " + driver + "\n Robot: " + robot, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -191,6 +207,21 @@ public class PlayAnimationActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LosingActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Set sensor status, i.e., change the color of the text of corresponding sensor.
+     */
+    private void setSensorStatus(){
+        leftSensor = (TextView) findViewById(R.id.txtLeftSensor);
+        rightSensor = (TextView) findViewById(R.id.txtRightSensor);
+        forwardSensor = (TextView) findViewById(R.id.txtForwardSensor);
+        backSensor = (TextView) findViewById(R.id.txtBackSensor);
+
+        leftSensor.setTextColor(Color.GREEN);
+        rightSensor.setTextColor(Color.GREEN);
+        forwardSensor.setTextColor(Color.GREEN);
+        backSensor.setTextColor(Color.GREEN);
     }
 
     /**

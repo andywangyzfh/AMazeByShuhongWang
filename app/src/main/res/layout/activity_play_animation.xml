@@ -90,7 +90,7 @@
         android:layout_width="205dp"
         android:layout_height="18dp"
         android:max="9"
-        android:progress="1"
+        android:progress="0"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
@@ -176,7 +176,7 @@
         android:id="@+id/txtSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1"
+        android:text="0"
         app:layout_constraintEnd_toEndOf="@+id/sbSpeed"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/sbSpeed" />

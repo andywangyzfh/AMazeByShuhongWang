@@ -34,7 +34,7 @@
         android:layout_height="34dp"
         android:layout_marginTop="16dp"
         android:max="9"
-        android:progress="1"
+        android:progress="0"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -42,7 +42,7 @@
         android:id="@+id/txt_difficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Difficulty: 1/9"
+        android:text="Difficulty: 0/9"
         app:layout_constraintStart_toStartOf="@+id/sb_difficulty"
         app:layout_constraintTop_toBottomOf="@+id/sb_difficulty" />
 

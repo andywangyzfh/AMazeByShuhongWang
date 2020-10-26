@@ -52,6 +52,8 @@ public class GeneratingActivity extends AppCompatActivity {
         setSpinners();
         setProgressBar();
         setButtonStart();
+
+        Toast.makeText(this, "Received builder:" + builder + "\n Difficulty: " + difficulty + "\n Contain rooms: " + String.valueOf(containRooms), Toast.LENGTH_SHORT).show();
     }
 
     /**

@@ -7,17 +7,24 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import edu.wm.cs.cs301.ShuhongWang.R;
 
 public class WinningActivity extends AppCompatActivity {
     private Button playAgain;
     private String log = "WinningActivity";
+    private String pathLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winning);
+
+        Intent intent = getIntent();
+        pathLength = intent.getStringExtra("pathLength");
+        Log.v(log, "Received path length: " + pathLength);
+
         setButtonPlayAgain();
     }
 
