@@ -37,6 +37,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
     private String log = "PlayAnimationActivity";
     private TextView txtMaze;
 
+    private int energyConsumption;
+    private int pathLength;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +62,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
         Log.v(log, "Received robot: " + robot);
         Log.v(log, "Received driver: " + driver);
         Toast.makeText(this, "Received driver: " + driver + "\n Robot: " + robot, Toast.LENGTH_SHORT).show();
+
+        energyConsumption = 0;
+        pathLength = 0;
     }
 
     /**
@@ -72,11 +78,11 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 Log.v(log, "Toggled pause.");
                 if (map.isChecked()){
                     pause.setTextOn("Running");
-                    txtMaze.setText("Switch from pause to play.");
+                    txtMaze.setText("Toggled animation.");
                 }
                 else{
                     pause.setTextOff("Paused");
-                    txtMaze.setText("Switched from play to pause");
+                    txtMaze.setText("Toggled animation.");
                 }
             }
         });
@@ -229,6 +235,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
      */
     public void onBackPressed(){
         Intent intent = new Intent(this, AMazeActivity.class);
+        intent.putExtra("energyConsumption", energyConsumption);
+        intent.putExtra("pathLength", pathLength);
         Log.v(log, "Go back to title page");
         startActivity(intent);
         finish();

@@ -14,7 +14,7 @@ import edu.wm.cs.cs301.ShuhongWang.R;
 public class WinningActivity extends AppCompatActivity {
     private Button playAgain;
     private String log = "WinningActivity";
-    private String pathLength;
+    private int pathLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +22,9 @@ public class WinningActivity extends AppCompatActivity {
         setContentView(R.layout.activity_winning);
 
         Intent intent = getIntent();
-        pathLength = intent.getStringExtra("pathLength");
-        Log.v(log, "Received path length: " + pathLength);
+        pathLength = intent.getIntExtra("pathLength", 0);
+        Log.v(log, "Received path length: " + String.valueOf(pathLength));
+        Toast.makeText(this, "Received path length: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
 
         setButtonPlayAgain();
     }

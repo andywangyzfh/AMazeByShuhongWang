@@ -7,18 +7,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import edu.wm.cs.cs301.ShuhongWang.R;
 
 public class LosingActivity extends AppCompatActivity {
     private Button playAgain;
     private String log = "LosingActivity";
+    private int energyConsumed;
+    private int pathLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_losing);
         setButtonPlayAgain();
+
+        Intent intent = getIntent();
+        energyConsumed = intent.getIntExtra("energyConsumed", 0);
+        pathLength = intent.getIntExtra("pathLength", 0);
+        Log.v(log, "Received energyConsumed: " + String.valueOf(energyConsumed));
+        Log.v(log, "Received pathLength: " + String.valueOf(pathLength));
+        Toast.makeText(this, "Received energyConsumed: " + String.valueOf(energyConsumed) + "\n pathLength: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
     }
 
     /**

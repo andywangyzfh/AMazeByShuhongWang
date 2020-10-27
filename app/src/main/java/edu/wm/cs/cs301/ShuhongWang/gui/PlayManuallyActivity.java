@@ -153,10 +153,10 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.v(log, "Toggled walls.");
                 if (map.isChecked()){
-                    txtMaze.setText("Walls On.");
+                    txtMaze.setText("Toggled Walls.");
                 }
                 else{
-                    txtMaze.setText("Walls Off.");
+                    txtMaze.setText("Toggled Walls.");
                 }
             }
         });
