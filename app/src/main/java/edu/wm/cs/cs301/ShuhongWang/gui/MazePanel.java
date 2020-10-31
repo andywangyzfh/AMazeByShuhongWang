@@ -41,34 +41,40 @@ public class MazePanel extends View {
 
     public MazePanel(Context context) {
         super(context);
-        bitmap = Bitmap.createBitmap(350, 350, Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(1200, 1200, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         paint = new Paint();
         this.viewHeight = 400;
         this.viewWidth = 400;
         decodeFont("Serif-PLAIN-16");
+//        this.myTestImage(canvas);
     }
 
     public MazePanel(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        bitmap = Bitmap.createBitmap(350, 350, Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap(1200, 1200, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         paint = new Paint();
         this.viewHeight = 400;
         this.viewWidth = 400;
         decodeFont("Serif-PLAIN-16");
+//        this.myTestImage(canvas);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+//        this.myTestImage(canvas);
+//        this.setColor(Color.RED);
+//        this.addFilledRectangle(0,0,1200,1200);
         canvas.drawBitmap(bitmap, 0, 0, paint);
+        update();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        this.setMeasuredDimension(200,200);
+        this.setMeasuredDimension(1200,1200);
     }
 
 //    /**
@@ -415,7 +421,7 @@ public class MazePanel extends View {
 //        graphics.fillOval(x, y, width, height);
         paint.setStyle(Paint.Style.FILL);
         RectF oval = new RectF(x, y, x + width, y + height);
-        canvas.drawRect(oval, paint);
+        canvas.drawOval(oval, paint);
     }
 
     /**
@@ -510,12 +516,51 @@ public class MazePanel extends View {
 ////        graphics.setRenderingHint(key, value);
 //    }
 
+    /**
+     * get the current font.
+     * @return markerFont
+     */
     public Typeface getFont() {
 //        return this.markerFont;
         return markerFont;
     }
 
+    /**
+     * Set the font with a string.
+     * @param str name of the font.
+     */
     public void decodeFont(String str) {
         markerFont = Typeface.create(str, Typeface.NORMAL);
+    }
+
+    /**
+     * For test purpose. Draw shapes on a polygon.
+     * @param c the canvas to draw on
+     */
+    private void myTestImage(Canvas c){
+        // red ball
+        this.setColor(Color.RED);
+        this.addFilledOval(0,0, 200, 200);
+
+        // green ball
+        this.setColor(Color.GREEN);
+        this.addFilledOval(400,0, 200, 200);
+
+        // yellow rectangle
+        this.setColor(Color.YELLOW);
+        this.addFilledRectangle(0, 300, 300, 200);
+
+        // blue polygon
+        this.setColor(Color.BLUE);
+        int[] x = {400,590,740,620,583};
+        int[] y = {300,205,380,520,530};
+        this.addFilledPolygon(x,y,5);
+
+        // straight line
+        this.addLine(20, 750, 70, 850);
+
+        // arc
+        this.addArc(20, 850, 250, 260, 20, 40);
+
     }
 }

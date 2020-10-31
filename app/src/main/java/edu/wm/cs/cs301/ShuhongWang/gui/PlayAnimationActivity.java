@@ -35,7 +35,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
     private TextView backSensor;
 
     private String log = "PlayAnimationActivity";
-    private TextView txtMaze;
+//    private TextView txtMaze;
 
     private int energyConsumption;
     private int pathLength;
@@ -45,7 +45,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_animation);
 
-        txtMaze = (TextView) findViewById(R.id.txtMaze);
+//        txtMaze = (TextView) findViewById(R.id.txtMaze);
         setTogglePause();
         setToggleMap();
         setButtonZoomIn();
@@ -76,14 +76,14 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Toggled pause.");
-                if (map.isChecked()){
-                    pause.setTextOn("Running");
-                    txtMaze.setText("Toggled animation.");
-                }
-                else{
-                    pause.setTextOff("Paused");
-                    txtMaze.setText("Toggled animation.");
-                }
+//                if (map.isChecked()){
+//                    pause.setTextOn("Running");
+//                    txtMaze.setText("Toggled animation.");
+//                }
+//                else{
+//                    pause.setTextOff("Paused");
+//                    txtMaze.setText("Toggled animation.");
+//                }
             }
         });
     }
@@ -97,12 +97,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Toggled map.");
-                if (map.isChecked()){
-                    txtMaze.setText("Map On.");
-                }
-                else{
-                    txtMaze.setText("Map Off.");
-                }
+//                if (map.isChecked()){
+//                    txtMaze.setText("Map On.");
+//                }
+//                else{
+//                    txtMaze.setText("Map Off.");
+//                }
             }
         });
     }
@@ -117,7 +117,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Zoom in.");
-                txtMaze.setText("Zoom in.");
+//                txtMaze.setText("Zoom in.");
             }
         });
     }
@@ -131,7 +131,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Zoom out.");
-                txtMaze.setText("Zoom out.");
+//                txtMaze.setText("Zoom out.");
             }
         });
     }
@@ -146,7 +146,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 txtSpeed.setText(String.valueOf(speed.getProgress()) + "/9");
-                txtMaze.setText("Change speed to " + String.valueOf(speed.getProgress()));
+//                txtMaze.setText("Change speed to " + String.valueOf(speed.getProgress()));
                 Log.v(log, "Changed speed.");
             }
             @Override
