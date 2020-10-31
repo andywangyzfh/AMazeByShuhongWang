@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.shapes.ArcShape;
 import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.fonts.Font;
+import android.util.AttributeSet;
 import android.view.View;
 
 public class MazePanel extends View {
@@ -48,19 +49,26 @@ public class MazePanel extends View {
         decodeFont("Serif-PLAIN-16");
     }
 
+    public MazePanel(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        bitmap = Bitmap.createBitmap(350, 350, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(bitmap);
+        paint = new Paint();
+        this.viewHeight = 400;
+        this.viewWidth = 400;
+        decodeFont("Serif-PLAIN-16");
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(bitmap, 0, 0, paint);
-//        paint.setStyle(Paint.Style.FILL);
-//        Rect rectangle = new Rect();
-//        canvas.drawRect(rectangle, paint);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        this.setMeasuredDimension(350,350);
+        this.setMeasuredDimension(200,200);
     }
 
 //    /**
@@ -93,8 +101,7 @@ public class MazePanel extends View {
 	 * Warning: do not override getGraphics() or drawing might fail.
 	 */
 	public void update() {
-//		paint(getGraphics());
-        this.onDraw(canvas);
+	    invalidate();
 	}
 
 //    /**
