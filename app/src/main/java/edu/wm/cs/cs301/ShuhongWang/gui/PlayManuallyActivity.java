@@ -26,7 +26,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
 
     private int pathLength;
     private String log = "PlayManuallyActivity";
-    private TextView txtMaze;
+//    private TextView txtMaze;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_play_manually);
 
         pathLength = 0;
-        txtMaze = (TextView) findViewById(R.id.txt_maze);
+//        txtMaze = (TextView) findViewById(R.id.txt_maze);
         setButtonForward();
         setButtonJump();
         setButtonLeft();
@@ -57,7 +57,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 pathLength++;
                 Log.v(log, "Clicked Forward.");
-                txtMaze.setText("Move forward.");
+//                txtMaze.setText("Move forward.");
             }
         });
     }
@@ -72,7 +72,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 pathLength++;
                 Log.v(log, "Clicked Jump.");
-                txtMaze.setText("Jump forward.");
+//                txtMaze.setText("Jump forward.");
             }
         });
     }
@@ -86,7 +86,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Clicked Left.");
-                txtMaze.setText("Turn left.");
+//                txtMaze.setText("Turn left.");
             }
         });
     }
@@ -100,7 +100,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Clicked right.");
-                txtMaze.setText("Turn right.");
+//                txtMaze.setText("Turn right.");
             }
         });
     }
@@ -114,12 +114,12 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Toggled solution.");
-                if (solution.isChecked()){
-                    txtMaze.setText("Solution On.");
-                }
-                else{
-                    txtMaze.setText("Solution Off.");
-                }
+//                if (solution.isChecked()){
+//                    txtMaze.setText("Solution On.");
+//                }
+//                else{
+//                    txtMaze.setText("Solution Off.");
+//                }
             }
         });
     }
@@ -133,12 +133,12 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Toggled map.");
-                if (map.isChecked()){
-                    txtMaze.setText("Map On.");
-                }
-                else{
-                    txtMaze.setText("Map Off.");
-                }
+//                if (map.isChecked()){
+//                    txtMaze.setText("Map On.");
+//                }
+//                else{
+//                    txtMaze.setText("Map Off.");
+//                }
             }
         });
     }
@@ -152,12 +152,12 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Toggled walls.");
-                if (map.isChecked()){
-                    txtMaze.setText("Toggled Walls.");
-                }
-                else{
-                    txtMaze.setText("Toggled Walls.");
-                }
+//                if (map.isChecked()){
+//                    txtMaze.setText("Toggled Walls.");
+//                }
+//                else{
+//                    txtMaze.setText("Toggled Walls.");
+//                }
             }
         });
     }
@@ -171,7 +171,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Zoom in.");
-                txtMaze.setText("Zoom in.");
+//                txtMaze.setText("Zoom in.");
             }
         });
     }
@@ -185,7 +185,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Zoom out.");
-                txtMaze.setText("Zoom out.");
+//                txtMaze.setText("Zoom out.");
             }
         });
     }

@@ -63,23 +63,6 @@
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tb_map">
-
-        <TextView
-            android:id="@+id/txt_maze"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
     <Button
         android:id="@+id/button_forward"
         android:layout_width="wrap_content"
@@ -88,7 +71,7 @@
         android:text="Forward"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <Button
         android:id="@+id/button_left"
@@ -120,22 +103,33 @@
         android:layout_width="50dp"
         android:layout_height="40dp"
         android:text="+"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/button_forward" />
 
     <Button
         android:id="@+id/button_zoomOut"
         android:layout_width="50dp"
         android:layout_height="40dp"
         android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/button_forward" />
 
     <Button
         android:id="@+id/ShortCut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="shortcut"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/button_right" />
+        app:layout_constraintTop_toBottomOf="@+id/button_right"
+        tools:layout_editor_absoluteX="285dp" />
+
+    <view
+        android:id="@+id/view"
+        class="edu.wm.cs.cs301.ShuhongWang.gui.MazePanel"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tb_map" />
 </androidx.constraintlayout.widget.ConstraintLayout>
