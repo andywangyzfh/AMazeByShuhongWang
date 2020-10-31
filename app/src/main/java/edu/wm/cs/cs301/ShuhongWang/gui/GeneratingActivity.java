@@ -98,7 +98,7 @@ public class GeneratingActivity extends AppCompatActivity {
                 while (progress < 100){
                     progress++;
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
