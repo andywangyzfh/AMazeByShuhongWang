@@ -9,9 +9,6 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.graphics.drawable.shapes.ArcShape;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.fonts.Font;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -172,7 +169,8 @@ public class MazePanel extends View {
      */
     public void commit() {
 //        paint(getGraphics());
-        canvas.drawBitmap(bitmap,0,0,paint);
+//        canvas.drawBitmap(bitmap,0,0,paint);
+        invalidate();
     }
 
     /**
@@ -484,36 +482,36 @@ public class MazePanel extends View {
 //     * @param hintValue the value indicating preferences for the specified hint category.
 //     */
 //    public void setRenderingHint(RenderingHints hintKey, RenderingHints hintValue) {
-////        Key key = null;
-////        Object value = null;
-////
-////        switch (hintKey) {
-////            case KEY_RENDERING:
-////                key = java.awt.RenderingHints.KEY_RENDERING;
-////                break;
-////            case KEY_ANTIALIASING:
-////                key = java.awt.RenderingHints.KEY_ANTIALIASING;
-////                break;
-////            case KEY_INTERPOLATION:
-////                key = java.awt.RenderingHints.KEY_INTERPOLATION;
-////                break;
-////            default:
-////                break;
-////        }
-////        switch(hintValue) {
-////            case VALUE_RENDER_QUALITY:
-////                value = java.awt.RenderingHints.VALUE_RENDER_QUALITY;
-////                break;
-////            case VALUE_ANTIALIAS_ON:
-////                value = java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
-////                break;
-////            case VALUE_INTERPOLATION_BILINEAR:
-////                value = java.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-////                break;
-////            default:
-////                break;
-////        }
-////        graphics.setRenderingHint(key, value);
+//        Key key = null;
+//        Object value = null;
+//
+//        switch (hintKey) {
+//            case KEY_RENDERING:
+//                key = java.awt.RenderingHints.KEY_RENDERING;
+//                break;
+//            case KEY_ANTIALIASING:
+//                key = java.awt.RenderingHints.KEY_ANTIALIASING;
+//                break;
+//            case KEY_INTERPOLATION:
+//                key = java.awt.RenderingHints.KEY_INTERPOLATION;
+//                break;
+//            default:
+//                break;
+//        }
+//        switch(hintValue) {
+//            case VALUE_RENDER_QUALITY:
+//                value = java.awt.RenderingHints.VALUE_RENDER_QUALITY;
+//                break;
+//            case VALUE_ANTIALIAS_ON:
+//                value = java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+//                break;
+//            case VALUE_INTERPOLATION_BILINEAR:
+//                value = java.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+//                break;
+//            default:
+//                break;
+//        }
+//        graphics.setRenderingHint(key, value);
 //    }
 
     /**
@@ -561,6 +559,13 @@ public class MazePanel extends View {
 
         // arc
         this.addArc(20, 850, 250, 260, 20, 40);
+    }
 
+    /**
+     * set anti alias for the paint
+     * @param bool true if want antialias, false otherwise
+     */
+    public void setAntiAlias(boolean bool){
+        paint.setAntiAlias(bool);
     }
 }
