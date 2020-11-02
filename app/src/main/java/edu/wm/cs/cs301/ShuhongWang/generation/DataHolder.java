@@ -4,6 +4,8 @@ public class DataHolder {
     private Order.Builder builder;
     private int skillLevel;
     private boolean isPerfect;
+    private int seed;
+    private Maze mazeConfig;
 
     private static final DataHolder holder = new DataHolder();
     public static DataHolder getInstance() {return holder;}
@@ -30,5 +32,21 @@ public class DataHolder {
 
     public void setSkillLevel(int skillLevel) {
         this.skillLevel = skillLevel;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
+    }
+
+    public Maze getMazeConfig() {
+        return mazeConfig;
+    }
+
+    public void setMazeConfig(Maze mazeConfig) {
+        this.mazeConfig = mazeConfig;
     }
 }

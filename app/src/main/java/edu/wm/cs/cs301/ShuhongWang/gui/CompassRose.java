@@ -48,7 +48,7 @@ public class CompassRose {
      */
     public CompassRose() {
 //        this(0.9, 1.7, Font.decode("Serif-PLAIN-16"));
-    	this(0.9, 1.7, new MazePanel());
+//    	this(0.9, 1.7, new MazePanel());
     }
     
     

@@ -20,9 +20,11 @@ import java.util.List;
 
 import edu.wm.cs.cs301.ShuhongWang.R;
 import edu.wm.cs.cs301.ShuhongWang.generation.DataHolder;
+import edu.wm.cs.cs301.ShuhongWang.generation.Maze;
+import edu.wm.cs.cs301.ShuhongWang.generation.MazeFactory;
 import edu.wm.cs.cs301.ShuhongWang.generation.Order;
 
-public class GeneratingActivity extends AppCompatActivity {
+public class GeneratingActivity extends AppCompatActivity implements Order {
     private Spinner spinnerDriver;
     private Spinner spinnerRobot;
     private ProgressBar progressBar;
@@ -35,8 +37,11 @@ public class GeneratingActivity extends AppCompatActivity {
     private Button buttonStart;
     private String driver;
     private String robot;
+    private Handler handler;
+    private MazeGeneration mazeGeneration;
 
     private Order.Builder mazeBuilder;
+    private MazeFactory mazeFactory;
     private int skillLevel = 0;
 
     @Override
@@ -56,19 +61,68 @@ public class GeneratingActivity extends AppCompatActivity {
         Log.v(log, "Difficulty: " + difficulty);
         Log.v(log, "ContainRooms: " + String.valueOf(containRooms));
 
+        handler = new Handler();
+        mazeFactory = new MazeFactory();
         setMazeBuilder(builder);
         setSkillLevel(difficulty);
         setPerfect(containRooms);
+        DataHolder.getInstance().setSeed(13);
 
         setSpinners();
         setProgressBar();
         setButtonStart();
 
+        mazeGeneration = new MazeGeneration();
+        mazeGeneration.execute(100);
+
         Toast.makeText(this, "Received builder:" + builder + "\n Difficulty: " + difficulty + "\n Contain rooms: " + String.valueOf(containRooms), Toast.LENGTH_SHORT).show();
     }
 
-    private class MazeGeneration extends AsyncTask<Integer, Integer, String> {
+    @Override
+    public int getSkillLevel() {
+        return DataHolder.getInstance().getSkillLevel();
+    }
 
+    @Override
+    public Builder getBuilder() {
+        return DataHolder.getInstance().getBuilder();
+    }
+
+    @Override
+    public boolean isPerfect() {
+        return DataHolder.getInstance().isPerfect();
+    }
+
+    @Override
+    public int getSeed() {
+        return DataHolder.getInstance().getSeed();
+    }
+
+    @Override
+    public void deliver(Maze mazeConfig) {
+        DataHolder.getInstance().setMazeConfig(mazeConfig);
+    }
+
+    @Override
+    public void updateProgress(int percentage) {
+        // Set current progress to percentage and update the progress bar.
+        if (progress < percentage && percentage <= 100){
+            progress = percentage;
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    progressBar.setProgress(progress);
+                    txtProgress.setText(String.valueOf(progress) + "%");
+                }
+            });
+        }
+    }
+
+    public void generateNewMaze(){
+        mazeFactory.order(this);
+    }
+
+    private class MazeGeneration extends AsyncTask<Integer, Integer, String> {
         @Override
         protected void onPreExecute() {
             progress = 0;
@@ -77,20 +131,29 @@ public class GeneratingActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Integer... integers) {
-            while (progress < 100){
-                
-            }
+//            while (progress <= 100){
+//                publishProgress(progress);
+//                if (isCancelled()){
+//                    break;
+//                }
+//                progress++;
+//            }
+            generateNewMaze();
             return "Maze Generation Done";
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
+//            super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]);
+            txtProgress.setText(String.valueOf(values[0]) + "%");
         }
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+//            super.onPostExecute(s);
+//            generateNewMaze();
+            Log.v(log, "Generated Maze.");
         }
 
         @Override
@@ -159,28 +222,27 @@ public class GeneratingActivity extends AppCompatActivity {
         txtProgress = (TextView) findViewById(R.id.txt_progress);
         progressBar.setProgress(0);
         progressBar.setMax(100);
-        final Handler handler = new Handler();
-
-        // Start a thread for testing in project 6.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (progress < 100){
-                    progress++;
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    handler.post(new Runnable() {
-                        public void run() {
-                            progressBar.setProgress(progress);
-                            txtProgress.setText(String.valueOf(progress) + "%");
-                        }
-                    });
-                }
-            }
-        }).start();
+//
+//        // Start a thread for testing in project 6.
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (progress < 100){
+//                    progress++;
+//                    try {
+//                        Thread.sleep(1);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    handler.post(new Runnable() {
+//                        public void run() {
+//                            progressBar.setProgress(progress);
+//                            txtProgress.setText(String.valueOf(progress) + "%");
+//                        }
+//                    });
+//                }
+//            }
+//        }).start();
     }
 
     /**
@@ -240,6 +302,10 @@ public class GeneratingActivity extends AppCompatActivity {
      * Set up the back button.
      */
     public void onBackPressed(){
+        if (!mazeGeneration.isCancelled()){
+            mazeGeneration.cancel(true);
+        }
+
         Intent intent = new Intent(this, AMazeActivity.class);
         Log.v(log, "Go back to title page");
         startActivity(intent);
