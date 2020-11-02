@@ -94,9 +94,7 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
     }
 
     @Override
-    public int getSeed() {
-        return DataHolder.getInstance().getSeed();
-    }
+    public int getSeed() { return DataHolder.getInstance().getSeed(); }
 
     @Override
     public void deliver(Maze mazeConfig) {
