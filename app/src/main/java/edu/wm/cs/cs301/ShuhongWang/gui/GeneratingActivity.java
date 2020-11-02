@@ -1,8 +1,7 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,10 +13,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.wm.cs.cs301.ShuhongWang.R;
+import edu.wm.cs.cs301.ShuhongWang.generation.DataHolder;
+import edu.wm.cs.cs301.ShuhongWang.generation.Order;
 
 public class GeneratingActivity extends AppCompatActivity {
     private Spinner spinnerDriver;
@@ -33,6 +36,9 @@ public class GeneratingActivity extends AppCompatActivity {
     private String driver;
     private String robot;
 
+    private Order.Builder mazeBuilder;
+    private int skillLevel = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +51,79 @@ public class GeneratingActivity extends AppCompatActivity {
         builder = intent.getStringExtra("algorithm");
         difficulty = intent.getStringExtra("difficulty");
         containRooms = intent.getBooleanExtra("containRooms", false);
+
         Log.v(log, "Builder: " + builder);
         Log.v(log, "Difficulty: " + difficulty);
         Log.v(log, "ContainRooms: " + String.valueOf(containRooms));
+
+        setMazeBuilder(builder);
+        setSkillLevel(difficulty);
+        setPerfect(containRooms);
 
         setSpinners();
         setProgressBar();
         setButtonStart();
 
         Toast.makeText(this, "Received builder:" + builder + "\n Difficulty: " + difficulty + "\n Contain rooms: " + String.valueOf(containRooms), Toast.LENGTH_SHORT).show();
+    }
+
+    private class MazeGeneration extends AsyncTask<Integer, Integer, String> {
+
+        @Override
+        protected void onPreExecute() {
+            progress = 0;
+            Log.v(log, "Maze Generation Starts");
+        }
+
+        @Override
+        protected String doInBackground(Integer... integers) {
+            while (progress < 100){
+                
+            }
+            return "Maze Generation Done";
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onCancelled(String s) {
+            super.onCancelled(s);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
+
+    private void setPerfect(boolean containRooms) {
+        DataHolder.getInstance().setPerfect(!containRooms);
+    }
+
+    private void setSkillLevel(String difficulty) {
+        skillLevel = Integer.valueOf(difficulty);
+        DataHolder.getInstance().setSkillLevel(skillLevel);
+    }
+
+    private void setMazeBuilder(String builder) {
+        if (builder.equals("DFS")){
+            mazeBuilder = Order.Builder.DFS;
+        }
+        else if (builder.equals("Prim")){
+            mazeBuilder = Order.Builder.Prim;
+        }
+        else if (builder.equals("Eller")){
+            mazeBuilder = Order.Builder.Eller;
+        }
+        DataHolder.getInstance().setBuilder(mazeBuilder);
     }
 
     /**

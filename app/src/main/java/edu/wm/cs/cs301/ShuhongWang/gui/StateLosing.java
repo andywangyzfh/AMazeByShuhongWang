@@ -24,7 +24,7 @@ import edu.wm.cs.cs301.ShuhongWang.gui.Constants.UserInput;
  * Refactored by Peter Kemper
  */
 public class StateLosing extends DefaultState {
-    SimpleScreens view;
+//    SimpleScreens view;
     MazePanel panel;
     Controller control;
     
@@ -51,7 +51,7 @@ public class StateLosing extends DefaultState {
         // keep the reference to the panel for drawing
         this.panel = panel;
         // init mazeview, controller not needed for final screen
-        view = new SimpleScreens();
+//        view = new SimpleScreens();
 
         if (panel == null) {
     		System.out.println("Statelosing.start: warning: no panel, dry-run game without graphics!");
@@ -59,7 +59,7 @@ public class StateLosing extends DefaultState {
     	}
         // otherwise show finish screen with winning message
         // draw content on panel
-        view.redrawFail(panel, pathLength, energyConsumed);
+//        view.redrawFail(panel, pathLength, energyConsumed);
         // update screen with panel content
 //        panel.update();
         panel.commit();

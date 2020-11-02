@@ -1,13 +1,12 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import edu.wm.cs.cs301.ShuhongWang.gui.Constants.UserInput;
+import java.util.Random;
 
 import edu.wm.cs.cs301.ShuhongWang.generation.CardinalDirection;
 import edu.wm.cs.cs301.ShuhongWang.generation.Maze;
 import edu.wm.cs.cs301.ShuhongWang.generation.Order;
 import edu.wm.cs.cs301.ShuhongWang.generation.Order.Builder;
-
-import java.util.Random;
+import edu.wm.cs.cs301.ShuhongWang.gui.Constants.UserInput;
 
 /**
  * Class handles the user interaction. 
@@ -97,10 +96,10 @@ public class Controller {
     
     public Controller() {
     	states = new State[5];
-        states[0] = new StateTitle();
+//        states[0] = new StateTitle();
         states[1] = new StateGenerating();
         states[2] = new StatePlaying();
-        states[3] = new StateWinning();
+//        states[3] = new StateWinning();
         states[4] = new StateLosing();
         currentState = states[0];
 //        panel = new MazePanel();
@@ -113,10 +112,10 @@ public class Controller {
 
     public Controller(MazePanel mazePanel) {
         states = new State[5];
-        states[0] = new StateTitle();
+//        states[0] = new StateTitle();
         states[1] = new StateGenerating();
         states[2] = new StatePlaying();
-        states[3] = new StateWinning();
+//        states[3] = new StateWinning();
         states[4] = new StateLosing();
         currentState = states[0];
         panel = mazePanel;
@@ -224,7 +223,7 @@ public class Controller {
     public void switchFromPlayingToWinning(int pathLength, float energy) {
         currentState = states[3];
         currentState.setPathLength(pathLength);
-    	((StateWinning)currentState).setEnergyConsumed(energy);
+//    	((StateWinning)currentState).setEnergyConsumed(energy);
         currentState.start(this, panel);
     }
     /**
