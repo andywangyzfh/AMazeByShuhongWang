@@ -3,18 +3,20 @@
  */
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import java.util.ArrayList;
+import android.graphics.Color;
 
-//import java.awt.Color;
-//import java.awt.Graphics;
-//import java.awt.Graphics2D;
-//import java.util.ArrayList;
+import java.util.ArrayList;
 
 import edu.wm.cs.cs301.ShuhongWang.generation.BSPBranch;
 import edu.wm.cs.cs301.ShuhongWang.generation.BSPLeaf;
 import edu.wm.cs.cs301.ShuhongWang.generation.BSPNode;
 import edu.wm.cs.cs301.ShuhongWang.generation.Floorplan;
 import edu.wm.cs.cs301.ShuhongWang.generation.Wall;
+
+//import java.awt.Color;
+//import java.awt.Graphics;
+//import java.awt.Graphics2D;
+//import java.util.ArrayList;
 
 /**
  * This class encapsulates all functionality for drawing the current view 
@@ -157,32 +159,36 @@ public class FirstPersonView {
 		// obtain a Graphics2D object we can draw on
 //		Graphics g = panel.getBufferGraphics() ;
         // viewers draw on the buffer graphics
+		System.out.println("FPV: draw start.");
         if (null == panel) {
             System.out.println("FirstPersonDrawer.draw: can't get maze panel to draw on, skipping redraw operation") ;
             return;
         }
+		System.out.println("FPV: Panel is not null.");
 //        mazePanel = (Graphics2D) g ;
         mazePanel = panel;
-        
+
         // update fields angle, viewx, viewy for current position and viewing angle
         angle = ang ;
         setView(x, y, walkStep);
-        
+
         // update graphics
         // draw background figure: black on bottom half, grey on top half
+		System.out.println("FPV: Start to draw background.");
         drawBackground(panel, percentToExit);
         // set color to white and draw what ever can be seen from the current position
-        panel.setColor(MazePanel.WHITE);
+        panel.setColor(Color.WHITE);
         // reset the set of ranges to a single new element (0,width-1)
-        // to cover the full width of the view 
+        // to cover the full width of the view
         // as we have not drawn any polygons (walls) yet.
-        rSet.set(0, viewWidth-1); 
-        
+        rSet.set(0, viewWidth-1);
+
         // debug: reset counters
         traverseNodeCounter = traverseWallSectorCounter =
         		drawRectCounter = drawRectLateCounter = drawRectWallCounter = 0;
         //
         drawAllVisibleSectors(bspRoot);
+        System.out.println("FPV: panel is operational: " + panel.isOperational());
 	}
 
 
@@ -214,10 +220,11 @@ public class FirstPersonView {
 	 * The color setting adjusts to the distance to the exit to 
 	 * provide an additional clue for the user.
 	 * Colors transition from black to gold and from grey to green.
-	 * @param graphics to draw on, must be not null
+//	 * @param graphics to draw on, must be not null
 	 * @param percentToExit gives the distance to exit
 	 */
 	private void drawBackground(MazePanel panel, float percentToExit) {
+//		System.out.println("FPV: drawBackGround HERE");
 		panel.addBackground(percentToExit);
 	}
 	
@@ -376,6 +383,7 @@ public class FirstPersonView {
 	private void drawAllWallsOfASector(BSPLeaf node) {
 		ArrayList<Wall> sl = node.getSlist();
 		// debug
+        System.out.println("FPV: drawAllWallsOfASector reached.");
 		traverseWallSectorCounter++;
 		if (deepDebug) {
 			dbg("                               ".substring(0, nesting) +
@@ -404,6 +412,8 @@ public class FirstPersonView {
 	 * @param wall whose seen attribute may be set to true
 	 */
 	private void drawWall(Wall wall) {
+
+		System.out.println("FPV: drawWall reached.");
 		drawRectCounter++; // debug, counter
 		
 		// some notes: 
@@ -420,9 +430,9 @@ public class FirstPersonView {
 		// note: viewZ == 50 is a constant
 		// note: scaleZ == view_height/2 is constant
 		final int y11 = viewZ *scaleZ/rp.z1        +(viewHeight/2); 
-		final int y12 = (viewZ-100) *scaleZ/rp.z1  +(viewHeight/2); 
+		final int y12 = (viewZ-200) *scaleZ/rp.z1  +(viewHeight/2);
 		final int y21 = viewZ *scaleZ/rp.z2        +(viewHeight/2); 
-		final int y22 = (viewZ-100) *scaleZ/rp.z2  +(viewHeight/2); 
+		final int y22 = (viewZ-200) *scaleZ/rp.z2  +(viewHeight/2);
 		final int x1  = rp.x1 *scaleZ/rp.z1        +(viewWidth/2); 
 		final int x2  = rp.x2 *scaleZ/rp.z2        +(viewWidth/2); 
 		
@@ -433,10 +443,14 @@ public class FirstPersonView {
 		
 		// moved code for drawing bits and pieces into yet another method to 
 		// gain more clarity on what information is actually needed
-		mazePanel.setColor(wall.getColor());
+//		mazePanel.setColor(wall.getColor());
+		mazePanel.setColor(Color.BLUE);
+		System.out.println("FPV: drawWall drawPolygon called.");
 		boolean drawn = drawPolygons(x1, x2, y11, y12, y21, y22);
-		
+		System.out.println("FPV: drawWall drawPolygon finished.");
+
 		if (drawn && !wall.isSeen()) {
+			System.out.println("FPV: drawWall add wall.");
 			wall.setSeen(true); // updates the wall
 			// set the seenWalls bit for all wallboards of a wall
 			// the wall parameter given is not modified
@@ -511,8 +525,9 @@ public class FirstPersonView {
 					y22+(x2i-x2)*yd2/xd+1,
 					y21+(x2i-x2)*yd1/xd };
 			// debug
-			//System.out.println("polygon-x: " + xps[0] + ", " + xps[1] + ", " + xps[2] + ", " + xps[3]) ;
-			//System.out.println("polygon-y: " + yps[0] + ", " + yps[1] + ", " + yps[2] + ", " + yps[3]) ;
+			System.out.println("polygon-x: " + xps[0] + ", " + xps[1] + ", " + xps[2] + ", " + xps[3]) ;
+			System.out.println("polygon-y: " + yps[0] + ", " + yps[1] + ", " + yps[2] + ", " + yps[3]) ;
+
 			mazePanel.addFilledPolygon(xps, yps, 4);
 			// for debugging purposes, code will draw a red line around polygon
 			// this makes individual walls visible
@@ -528,6 +543,7 @@ public class FirstPersonView {
 			
 			drawRectWallCounter++; // debug, counter
 		}
+		System.out.println("FPV: drawPolygons result: " + drawn);
 		return drawn;
 	}
 	

@@ -1,7 +1,5 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import edu.wm.cs.cs301.ShuhongWang.gui.Constants.UserInput;
-
 import edu.wm.cs.cs301.ShuhongWang.generation.CardinalDirection;
 import edu.wm.cs.cs301.ShuhongWang.generation.Floorplan;
 import edu.wm.cs.cs301.ShuhongWang.generation.Maze;
@@ -35,8 +33,9 @@ public class StatePlaying extends DefaultState {
 	FirstPersonView firstPersonView;
 	Map mapView;
     MazePanel panel;
-    Controller control;
-    
+//    Controller control;
+    PlayManuallyActivity playManuallyActivity;
+
     Maze mazeConfig ; 
     
     private boolean showMaze;           // toggle switch to show overall maze on screen
@@ -68,18 +67,20 @@ public class StatePlaying extends DefaultState {
     public void setMazeConfiguration(Maze config) {
         mazeConfig = config;
     }
+
+    public void setPlayManuallyActivity(PlayManuallyActivity playManuallyActivity) { this.playManuallyActivity = playManuallyActivity; }
     /**
      * Start the actual game play by showing the playing screen.
      * If the panel is null, all drawing operations are skipped.
      * This mode of operation is useful for testing purposes, 
      * i.e., a dryrun of the game without the graphics part.
-     * @param controller provides access to the controller this state resides in
+//     * @param controller provides access to the controller this state resides in
      * @param panel is part of the UI and visible on the screen, needed for drawing
      */
-    public void start(Controller controller, MazePanel panel) {
+    public void start(MazePanel panel) {
         started = true;
         // keep the reference to the controller to be able to call method to switch the state
-        control = controller;
+//        control = controller;
         // keep the reference to the panel for drawing
         this.panel = panel;
         //
@@ -95,9 +96,9 @@ public class StatePlaying extends DefaultState {
         walkStep = 0; // counts incremental steps during move/rotate operation
         
         // configure compass rose
-        cr = new CompassRose();
+        cr = new CompassRose(panel);
         cr.setPositionAndSize(Constants.VIEW_WIDTH/2,
-        		(int)(0.1*Constants.VIEW_HEIGHT),35);
+        		(int)(0.1*Constants.VIEW_HEIGHT),35*3);
         
         // if (control.getRobot() != null && control.getDriver() != null) {
 		// 	control.getRobot().setController(control);
@@ -118,24 +119,24 @@ public class StatePlaying extends DefaultState {
         	printWarning();
         }
 
-        if (control.getDriver() instanceof Wizard || control.getDriver() instanceof WallFollower) {
-        	try {
-        		control.getRobot().setController(controller);
-        		control.getRobot().setBatteryLevel(3500);
-//        		if (control.getRobot() instanceof UnreliableRobot) {
-//        			((UnreliableRobot) control.getRobot()).startRobot();
+//        if (control.getDriver() instanceof Wizard || control.getDriver() instanceof WallFollower) {
+//        	try {
+////        		control.getRobot().setController(controller);
+//        		control.getRobot().setBatteryLevel(3500);
+////        		if (control.getRobot() instanceof UnreliableRobot) {
+////        			((UnreliableRobot) control.getRobot()).startRobot();
+////        		}
+//        		if (!control.getDriver().drive2Exit()) {
+//					control.switchFromPlayingToLosing(control.getDriver().getPathLength(), control.getDriver().getEnergyConsumption());
 //        		}
-        		if (!control.getDriver().drive2Exit()) {
-					control.switchFromPlayingToLosing(control.getDriver().getPathLength(), control.getDriver().getEnergyConsumption());
-        		}
-        		else {
-        			control.switchFromPlayingToWinning(control.getDriver().getPathLength(), control.getDriver().getEnergyConsumption());
-        		}
-			} catch (Exception e) {
-				e.printStackTrace();
-				control.switchFromPlayingToLosing(control.getRobot().getOdometerReading(), control.getDriver().getEnergyConsumption());
-			}
-        }
+//        		else {
+//        			control.switchFromPlayingToWinning(control.getDriver().getPathLength(), control.getDriver().getEnergyConsumption());
+//        		}
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//				control.switchFromPlayingToLosing(control.getRobot().getOdometerReading(), control.getDriver().getEnergyConsumption());
+//			}
+//        }
         
     }
     /**
@@ -147,7 +148,7 @@ public class StatePlaying extends DefaultState {
 		firstPersonView = new FirstPersonView(Constants.VIEW_WIDTH,
 				Constants.VIEW_HEIGHT, Constants.MAP_UNIT,
 				Constants.STEP_SIZE, seenCells, mazeConfig.getRootnode()) ;
-		mapView = new Map(seenCells, 15, mazeConfig) ;
+		mapView = new Map(seenCells, 15*3, mazeConfig) ;
 		// draw the initial screen for this state
 		draw();
 	}
@@ -176,10 +177,9 @@ public class StatePlaying extends DefaultState {
      * Method requires {@link #start(Controller, MazePanel) start} to be
      * called before.
      * @param key provides the feature the user selected
-     * @param value is not used, exists only for consistency across State classes
      * @return false if not started yet otherwise true
      */
-    public boolean keyDown(UserInput key, int value) {
+    public boolean keyDown(Constants.UserInput key) {
         if (!started)
             return false;
 
@@ -194,7 +194,8 @@ public class StatePlaying extends DefaultState {
             walk(1);
             // check termination, did we leave the maze?
             if (isOutside(px,py)) {
-                control.switchFromPlayingToWinning(0);
+//                control.switchFromPlayingToWinning(0);
+                playManuallyActivity.startWinningActivity();
             }
             break;
         case Left: // turn left
@@ -207,11 +208,12 @@ public class StatePlaying extends DefaultState {
             walk(-1);
             // check termination, did we leave the maze?
             if (isOutside(px,py)) {
-                control.switchFromPlayingToWinning(0);
+//                control.switchFromPlayingToWinning(0);
+                playManuallyActivity.startWinningActivity();
             }
             break;
         case ReturnToTitle: // escape to title screen
-            control.switchToTitle();
+//            control.switchToTitle();
             break;
         case Jump: // make a step forward even through a wall
             // go to position if within maze
@@ -258,13 +260,15 @@ public class StatePlaying extends DefaultState {
     	// draw the first person view and the map view if wanted
     	firstPersonView.draw(panel, px, py, walkStep, angle, 
     			getPercentageForDistanceToExit()) ;
+
         if (isInMapMode()) {
+            System.out.println("SP: map on");
 			mapView.draw(panel, px, py, angle, walkStep,
 					isInShowMazeMode(),isInShowSolutionMode()) ;
 		}
 		// update the screen with the buffer graphics
-//        panel.update() ;
-        panel.commit();
+        panel.update() ;
+//        panel.commit();
     }
     /**
      * Calculates a distance to exit as a percentage. 

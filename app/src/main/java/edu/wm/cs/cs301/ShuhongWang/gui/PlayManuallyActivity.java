@@ -1,25 +1,26 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import edu.wm.cs.cs301.ShuhongWang.R;
+import edu.wm.cs.cs301.ShuhongWang.generation.DataHolder;
+import edu.wm.cs.cs301.ShuhongWang.generation.Maze;
 
 public class PlayManuallyActivity extends AppCompatActivity {
     private Button forward;
     private Button jump;
     private Button left;
     private Button right;
-    private ToggleButton solution;
-    private ToggleButton map;
-    private ToggleButton walls;
+    private ToggleButton showSolution;
+    private ToggleButton mapMode;
+    private ToggleButton showWalls;
     private Button zoomIn;
     private Button zoomOut;
     private Button shortCut;
@@ -28,12 +29,23 @@ public class PlayManuallyActivity extends AppCompatActivity {
     private String log = "PlayManuallyActivity";
 //    private TextView txtMaze;
 
+    private MazePanel mazePanel;
+    private StatePlaying statePlaying;
+    private Maze maze;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_manually);
 
         pathLength = 0;
+
+        mazePanel = findViewById(R.id.mazePanel);
+        statePlaying = new StatePlaying();
+        maze = DataHolder.getInstance().getMazeConfig();
+        statePlaying.setMazeConfiguration(maze);
+        statePlaying.setPlayManuallyActivity(this);
+
 //        txtMaze = (TextView) findViewById(R.id.txt_maze);
         setButtonForward();
         setButtonJump();
@@ -45,6 +57,10 @@ public class PlayManuallyActivity extends AppCompatActivity {
         setButtonZoomIn();
         setButtonZoomOut();
         setButtonShortCut();
+
+        Log.v(log, "Start Playing Activity");
+        statePlaying.start(mazePanel);
+
     }
 
     /**
@@ -56,6 +72,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pathLength++;
+                statePlaying.keyDown(Constants.UserInput.Up);
                 Log.v(log, "Clicked Forward.");
 //                txtMaze.setText("Move forward.");
             }
@@ -71,6 +88,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 pathLength++;
+                statePlaying.keyDown(Constants.UserInput.Jump);
                 Log.v(log, "Clicked Jump.");
 //                txtMaze.setText("Jump forward.");
             }
@@ -85,6 +103,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.Left);
                 Log.v(log, "Clicked Left.");
 //                txtMaze.setText("Turn left.");
             }
@@ -99,6 +118,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.Right);
                 Log.v(log, "Clicked right.");
 //                txtMaze.setText("Turn right.");
             }
@@ -109,10 +129,11 @@ public class PlayManuallyActivity extends AppCompatActivity {
      * Set up the toggle button to toggle the solution.
      */
     private void setToggleSolution() {
-        solution = (ToggleButton) findViewById(R.id.tb_solution);
-        solution.setOnClickListener(new View.OnClickListener() {
+        showSolution = (ToggleButton) findViewById(R.id.tb_solution);
+        showSolution.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ToggleSolution);
                 Log.v(log, "Toggled solution.");
 //                if (solution.isChecked()){
 //                    txtMaze.setText("Solution On.");
@@ -128,15 +149,16 @@ public class PlayManuallyActivity extends AppCompatActivity {
      * Set up the toggle button to toggle the map.
      */
     private void setToggleMap() {
-        map = (ToggleButton) findViewById(R.id.tb_map);
-        map.setOnClickListener(new View.OnClickListener() {
+        mapMode = (ToggleButton) findViewById(R.id.tb_map);
+        mapMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ToggleLocalMap);
                 Log.v(log, "Toggled map.");
 //                if (map.isChecked()){
 //                    txtMaze.setText("Map On.");
 //                }
-//                else{
+//                else
 //                    txtMaze.setText("Map Off.");
 //                }
             }
@@ -147,10 +169,11 @@ public class PlayManuallyActivity extends AppCompatActivity {
      * Set up the toggle button to toggle the walls.
      */
     private void setToggleWalls() {
-        walls = (ToggleButton) findViewById(R.id.tb_walls);
-        walls.setOnClickListener(new View.OnClickListener() {
+        showWalls = (ToggleButton) findViewById(R.id.tb_walls);
+        showWalls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ToggleFullMap);
                 Log.v(log, "Toggled walls.");
 //                if (map.isChecked()){
 //                    txtMaze.setText("Toggled Walls.");
@@ -170,6 +193,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         zoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ZoomIn);
                 Log.v(log, "Zoom in.");
 //                txtMaze.setText("Zoom in.");
             }
@@ -184,6 +208,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         zoomOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ZoomOut);
                 Log.v(log, "Zoom out.");
 //                txtMaze.setText("Zoom out.");
             }
@@ -207,7 +232,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     /**
      * Switch to state winning.
      */
-    private void startWinningActivity(){
+    public void startWinningActivity(){
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("pathLength", pathLength);
         Log.v(log, "start WinningActivity. ");

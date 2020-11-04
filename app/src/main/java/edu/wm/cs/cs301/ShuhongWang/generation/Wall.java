@@ -387,7 +387,7 @@ public class Wall {
     }
 
     /**
-     * @param color
+//     * @param color
      *            the color to set
      */
     public void setColor(int rgb) {

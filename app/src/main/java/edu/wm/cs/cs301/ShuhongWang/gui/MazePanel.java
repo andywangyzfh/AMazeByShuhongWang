@@ -41,8 +41,8 @@ public class MazePanel extends View {
         bitmap = Bitmap.createBitmap(1200, 1200, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         paint = new Paint();
-        this.viewHeight = 400;
-        this.viewWidth = 400;
+        this.viewHeight = 1200;
+        this.viewWidth = 1200;
         decodeFont("Serif-PLAIN-16");
 //        this.myTestImage(canvas);
     }
@@ -52,8 +52,8 @@ public class MazePanel extends View {
         bitmap = Bitmap.createBitmap(1200, 1200, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         paint = new Paint();
-        this.viewHeight = 400;
-        this.viewWidth = 400;
+        this.viewHeight = 1200;
+        this.viewWidth = 1200;
         decodeFont("Serif-PLAIN-16");
 //        this.myTestImage(canvas);
     }
@@ -65,7 +65,7 @@ public class MazePanel extends View {
 //        this.setColor(Color.RED);
 //        this.addFilledRectangle(0,0,1200,1200);
         canvas.drawBitmap(bitmap, 0, 0, paint);
-        update();
+//        update();
     }
 
     @Override
@@ -268,9 +268,10 @@ public class MazePanel extends View {
      * @param percentToExit gives the distance to exit
      */
     public void addBackground(float percentToExit) {
-//        // black rectangle in upper half of screen
-//        // graphics.setColor(Color.black);
-//        // dynamic color setting:
+        // black rectangle in upper half of screen
+        // graphics.setColor(Color.black);
+        // dynamic color setting:
+
         this.setColor(getBackgroundColor(percentToExit, true));
         this.addFilledRectangle(0, 0, viewWidth, viewHeight/2);
 //        // grey rectangle in lower half of screen
@@ -327,7 +328,7 @@ public class MazePanel extends View {
      */
     public void addFilledRectangle(int x, int y, int width, int height) {
 //        graphics.fillRect(x, y, width, height);
-        Rect rectangle = new Rect(x, y, x + width, y + height);
+        Rect rectangle = new Rect(x, y, (x + width), (y + height));
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(rectangle, paint);
     }
@@ -400,6 +401,7 @@ public class MazePanel extends View {
     public void addLine(int startX, int startY, int endX, int endY) {
 //        graphics.drawLine(startX, startY, endX, endY);
         paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
         canvas.drawLine(startX, startY, endX, endY, paint);
     }
 
@@ -418,7 +420,7 @@ public class MazePanel extends View {
     public void addFilledOval(int x, int y, int width, int height) {
 //        graphics.fillOval(x, y, width, height);
         paint.setStyle(Paint.Style.FILL);
-        RectF oval = new RectF(x, y, x + width, y + height);
+        RectF oval = new RectF(x, y, (x + width), (y + height));
         canvas.drawOval(oval, paint);
     }
 
@@ -450,7 +452,8 @@ public class MazePanel extends View {
     public void addArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 //        graphics.drawArc(x, y, width, height, startAngle, arcAngle);
         paint.setStyle(Paint.Style.STROKE);
-        RectF rectF = new RectF(x, y, x + width, y + height);
+        paint.setStrokeWidth(5);
+        RectF rectF = new RectF(x, y, (x + width), (y + height));
         canvas.drawArc(rectF, startAngle, arcAngle, false, paint);
     }
 
