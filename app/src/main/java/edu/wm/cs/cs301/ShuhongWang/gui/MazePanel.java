@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -570,5 +571,12 @@ public class MazePanel extends View {
      */
     public void setAntiAlias(boolean bool){
         paint.setAntiAlias(bool);
+    }
+
+    /**
+     * The method to clear the canvas to avoid ghost image.
+     */
+    public void clearCanvas(){
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
     }
 }

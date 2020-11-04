@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
-        android:id="@+id/txtEnergyConsumption"
+        android:id="@+id/txtPathLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -40,15 +40,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
-        android:id="@+id/txtPathLength"
+        android:id="@+id/txtIdealPathLength"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Total path length: 24"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="@+id/txtEnergyConsumption"
-        app:layout_constraintStart_toStartOf="@+id/txtEnergyConsumption"
-        app:layout_constraintTop_toBottomOf="@+id/txtEnergyConsumption" />
+        app:layout_constraintEnd_toEndOf="@+id/txtPathLength"
+        app:layout_constraintStart_toStartOf="@+id/txtPathLength"
+        app:layout_constraintTop_toBottomOf="@+id/txtPathLength" />
 
     <Button
         android:id="@+id/buttonPlayAgain"
@@ -58,6 +58,6 @@
         android:text="Play Again"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPathLength" />
+        app:layout_constraintTop_toBottomOf="@+id/txtIdealPathLength" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     private Button shortCut;
 
     private int pathLength;
+    private int shortestPathLength;
     private String log = "PlayManuallyActivity";
 //    private TextView txtMaze;
 
@@ -45,6 +46,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
         maze = DataHolder.getInstance().getMazeConfig();
         statePlaying.setMazeConfiguration(maze);
         statePlaying.setPlayManuallyActivity(this);
+
+        int[] start = maze.getStartingPosition();
+        shortestPathLength = maze.getDistanceToExit(start[0], start[1]);
 
 //        txtMaze = (TextView) findViewById(R.id.txt_maze);
         setButtonForward();
@@ -235,6 +239,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     public void startWinningActivity(){
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("pathLength", pathLength);
+        intent.putExtra("shortestPathLength", shortestPathLength);
         Log.v(log, "start WinningActivity. ");
         startActivity(intent);
         finish();

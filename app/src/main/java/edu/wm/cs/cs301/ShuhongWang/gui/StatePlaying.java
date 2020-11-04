@@ -59,7 +59,8 @@ public class StatePlaying extends DefaultState {
     //private boolean newGame = false;
 
     boolean started;
-    
+
+
     public StatePlaying() {
         started = false;
     }
@@ -257,6 +258,7 @@ public class StatePlaying extends DefaultState {
     		printWarning();
     		return;
     	}
+    	panel.clearCanvas();
     	// draw the first person view and the map view if wanted
     	firstPersonView.draw(panel, px, py, walkStep, angle, 
     			getPercentageForDistanceToExit()) ;
@@ -466,6 +468,7 @@ public class StatePlaying extends DefaultState {
     			mazeConfig.hasWall(px, py, getCurrentDirection().oppositeDirection().rotateClockwise()) &&
     			mazeConfig.hasWall(px, py, getCurrentDirection().rotateClockwise()));
     }
+
     /////////////////////// Methods for debugging ////////////////////////////////
     /*
     private void dbg(String str) {
