@@ -1,13 +1,13 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import edu.wm.cs.cs301.ShuhongWang.R;
 
@@ -16,6 +16,9 @@ public class LosingActivity extends AppCompatActivity {
     private String log = "LosingActivity";
     private int energyConsumed;
     private int pathLength;
+
+    private TextView txtEnergy;
+    private TextView txtPathLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,16 @@ public class LosingActivity extends AppCompatActivity {
         pathLength = intent.getIntExtra("pathLength", 0);
         Log.v(log, "Received energyConsumed: " + String.valueOf(energyConsumed));
         Log.v(log, "Received pathLength: " + String.valueOf(pathLength));
-        Toast.makeText(this, "Received energyConsumed: " + String.valueOf(energyConsumed) + "\n pathLength: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Received energyConsumed: " + String.valueOf(energyConsumed) + "\n pathLength: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
+
+        setText();
+    }
+
+    private void setText() {
+        txtEnergy = findViewById(R.id.txt_energy_consumption);
+        txtPathLength = findViewById(R.id.txt_path_length);
+        txtEnergy.setText("Total Energy Consumed: " + energyConsumed);
+        txtPathLength.setText("Total Path Length: " + pathLength);
     }
 
     /**

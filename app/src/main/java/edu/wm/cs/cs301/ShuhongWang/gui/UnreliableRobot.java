@@ -6,6 +6,7 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 import java.util.ArrayList;
 
 import edu.wm.cs.cs301.ShuhongWang.generation.CardinalDirection;
+import edu.wm.cs.cs301.ShuhongWang.generation.Maze;
 import edu.wm.cs.cs301.ShuhongWang.gui.Constants.UserInput;
 
 /**
@@ -23,7 +24,7 @@ public class UnreliableRobot implements Robot {
 	// define private variables here
 	private float batteryLevel;
 	private int odometer;
-	private Controller controller;
+	private StatePlaying statePlaying;
 	private float energyForFullRotation;
 	private float energyForStepForward;
 	private float energyForJump;
@@ -125,31 +126,33 @@ public class UnreliableRobot implements Robot {
 	/**
 	 * Initialize the controller that provides the robot needed information
 	 * 
-	 * @param controller is the communication partner for robot
+	 * @param statePlaying is the communication partner for robot
 	 * @throws IllegalArgumentException if controller is null, 
 	 */
 	@Override
-	public void setController(Controller controller) {
+	public void setStatePlaying(StatePlaying statePlaying) {
 		// Check if the controller is null. If null, throw IllegalArgumentException.
-		if (controller == null) {
-			throw new IllegalArgumentException("controller is null!");
+		if (statePlaying == null) {
+			throw new IllegalArgumentException("UnreliableRobot: statePlaying is null!");
 		}
 		
 		// Initialize the private value.
-		this.controller = controller;
-		leftSensor.setMaze(controller.getMazeConfiguration());
-		rightSensor.setMaze(controller.getMazeConfiguration());
-		frontSensor.setMaze(controller.getMazeConfiguration());
-		backSensor.setMaze(controller.getMazeConfiguration());
+        this.statePlaying = statePlaying;
+//		this.controller = controller;
+		Maze maze = statePlaying.getMazeConfiguration();
+		leftSensor.setMaze(maze);
+		rightSensor.setMaze(maze);
+		frontSensor.setMaze(maze);
+		backSensor.setMaze(maze);
 	}
 	
 	/**
-	 * Provide the information of the controller.
+	 * Provide the information of the StatePlaying.
 	 * 
-	 * @return controller is the communication partner for robot.
+	 * @return statePlaying is the communication partner for robot.
 	 */
-	public Controller getController() {
-		return controller;
+	public StatePlaying getStatePlaying() {
+		return statePlaying;
 	}
 
 	/**
@@ -162,11 +165,11 @@ public class UnreliableRobot implements Robot {
 	@Override
 	public int[] getCurrentPosition() throws Exception {
 		// Get the position from the controller.
-		int[] currentPosition = controller.getCurrentPosition();
+		int[] currentPosition = statePlaying.getCurrentPosition();
 		int x = currentPosition[0];
 		int y = currentPosition[1];
-		int height = controller.getMazeConfiguration().getHeight();
-		int width = controller.getMazeConfiguration().getWidth();
+		int height = statePlaying.getMazeConfiguration().getHeight();
+		int width = statePlaying.getMazeConfiguration().getWidth();
 		
 		// If the position is invalid, throw Exception.
 		if (x < 0 || x >= width || y < 0 || y >= height) {
@@ -183,7 +186,7 @@ public class UnreliableRobot implements Robot {
 	@Override
 	public CardinalDirection getCurrentDirection() {
 		// Return the current direction.
-		return controller.getCurrentDirection();
+		return statePlaying.getCurrentDirection();
 	}
 
 	/**
@@ -288,7 +291,7 @@ public class UnreliableRobot implements Robot {
 			}
 			else {
 				// set the direction of the robot according to Turn.
-				controller.keyDown(UserInput.Left, 1);
+				statePlaying.keyDown(UserInput.Left);
 				// subtract the battery cost
 				setBatteryLevel(getBatteryLevel() - energyCost);
 			}
@@ -300,7 +303,7 @@ public class UnreliableRobot implements Robot {
 				stopped = true;
 			}
 			else {
-				controller.keyDown(UserInput.Right, 1);
+				statePlaying.keyDown(UserInput.Right);
 				setBatteryLevel(getBatteryLevel() - energyCost);
 			}
 			break;
@@ -311,8 +314,8 @@ public class UnreliableRobot implements Robot {
 				stopped = true;
 			}
 			else {
-				controller.keyDown(UserInput.Right, 1);
-				controller.keyDown(UserInput.Right, 1);
+				statePlaying.keyDown(UserInput.Right);
+				statePlaying.keyDown(UserInput.Right);
 				setBatteryLevel(getBatteryLevel() - energyCost);
 			}
 			break;
@@ -357,7 +360,7 @@ public class UnreliableRobot implements Robot {
 				break;
 			}
 			// For each step, check if there is a wall in the front. If there is, stop movement,
-			if (controller.getMazeConfiguration().hasWall(currentPosition[0], currentPosition[1], currentDirection)) {
+			if (statePlaying.getMazeConfiguration().hasWall(currentPosition[0], currentPosition[1], currentDirection)) {
 				System.out.println("ROBOT CRASHED.");
 				batteryLevel = 0;
 				stopped = true;
@@ -366,7 +369,7 @@ public class UnreliableRobot implements Robot {
 			// If the robot can move
 			else {
 				// move the robot forward
-				controller.keyDown(UserInput.Up, 1);
+				statePlaying.keyDown(UserInput.Up);
 				// consume energy
 				setBatteryLevel(getBatteryLevel() - getEnergyForStepForward());
 				// decrease distance by 1
@@ -416,8 +419,8 @@ public class UnreliableRobot implements Robot {
 			int[] d = direction.getDirection();
 			int dx = d[0];
 			int dy = d[1];
-			int height = controller.getMazeConfiguration().getHeight();
-			int width = controller.getMazeConfiguration().getWidth();
+			int height = statePlaying.getMazeConfiguration().getHeight();
+			int width = statePlaying.getMazeConfiguration().getWidth();
 			
 			if (x+dx < 0 || x+dx >= width || y+dy < 0 || y+dy >= height) {
 				// if landed outside, stop the robot, and don't move the robot.
@@ -427,7 +430,7 @@ public class UnreliableRobot implements Robot {
 			}
 			// If not, move the robot one cell to the front.
 			else {
-				controller.keyDown(UserInput.Jump, 1);
+				statePlaying.keyDown(UserInput.Jump);
 			}
 			
 		}
@@ -450,7 +453,7 @@ public class UnreliableRobot implements Robot {
 			return false;
 		}
 		
-		return controller.getMazeConfiguration().getFloorplan().isExitPosition(currentPosition[0], currentPosition[1]);
+		return statePlaying.getMazeConfiguration().getFloorplan().isExitPosition(currentPosition[0], currentPosition[1]);
 	}
 
 	/**
@@ -465,7 +468,7 @@ public class UnreliableRobot implements Robot {
 		} catch (Exception e) {
 			return false;
 		}
-		return controller.getMazeConfiguration().getFloorplan().isInRoom(currentPosition[0], currentPosition[1]);
+		return statePlaying.getMazeConfiguration().getFloorplan().isInRoom(currentPosition[0], currentPosition[1]);
 	}
 
 	/**
@@ -527,7 +530,7 @@ public class UnreliableRobot implements Robot {
 //		}
 		
 		// Let the sensor detect the distance.
-		sensor.setMaze(controller.getMazeConfiguration());
+		sensor.setMaze(statePlaying.getMazeConfiguration());
 		float[] powersupply = new float[1];
 		powersupply[0] = batteryLevel;
 
@@ -722,4 +725,21 @@ public class UnreliableRobot implements Robot {
 		return backSensor;
 	}
 
+	public boolean[] getSensorStatus(){
+		boolean[] status = new boolean[4];
+		status[0] = true;
+		status[1] = true;
+		status[2] = true;
+		status[3] = true;
+		if (leftSensor instanceof UnreliableSensor)
+			status[0] = ((UnreliableSensor)leftSensor).isWorking();
+		if (rightSensor instanceof UnreliableSensor)
+			status[1] = ((UnreliableSensor)rightSensor).isWorking();
+		if (frontSensor instanceof UnreliableSensor)
+			status[2] = ((UnreliableSensor)frontSensor).isWorking();
+		if (backSensor instanceof UnreliableSensor)
+			status[3] = ((UnreliableSensor)backSensor).isWorking();
+
+		return status;
+	}
 }

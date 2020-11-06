@@ -135,9 +135,11 @@ public class Wizard implements RobotDriver {
 			// rotate the robot to face the exit
 			if (robot.canSeeThroughTheExitIntoEternity(Direction.LEFT)) {
 				robot.rotate(Turn.LEFT);
+//				robot.move(1);
 			}
 			else if (robot.canSeeThroughTheExitIntoEternity(Direction.RIGHT)) {
 				robot.rotate(Turn.RIGHT);
+//				robot.move(1);
 			}
 			if (robot.hasStopped()) {
 				return false;

@@ -19,6 +19,7 @@ public class WinningActivity extends AppCompatActivity {
     private int shortestPathLength;
     private TextView txtPathLength;
     private TextView txtIdealPathLength;
+    private int energy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class WinningActivity extends AppCompatActivity {
         Intent intent = getIntent();
         pathLength = intent.getIntExtra("pathLength", 0);
         shortestPathLength = intent.getIntExtra("shortestPathLength", 0);
+        energy = intent.getIntExtra("energyConsumption", 0);
         Log.v(log, "Received path length: " + String.valueOf(pathLength));
         Toast.makeText(this, "Received path length: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Received shortest path length: " + String.valueOf(shortestPathLength), Toast.LENGTH_SHORT).show();
@@ -44,6 +46,9 @@ public class WinningActivity extends AppCompatActivity {
         txtIdealPathLength = findViewById(R.id.txtIdealPathLength);
         txtPathLength.setText("Total path length you walked: " + pathLength);
         txtIdealPathLength.setText("Shortest possible path length: " + shortestPathLength);
+        if (energy != 0){
+            txtIdealPathLength.setText("Total Energy Consumption: " + energy);
+        }
     }
 
     /**

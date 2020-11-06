@@ -200,7 +200,7 @@ public class Controller {
         currentState = states[2];
         currentState.setMazeConfiguration(config);
         if (robot != null) {
-        	robot.setController(this);
+//        	robot.setController(this);
         	if (this.getRobot() instanceof UnreliableRobot) {
     			((UnreliableRobot) this.getRobot()).startRobot();
     		}

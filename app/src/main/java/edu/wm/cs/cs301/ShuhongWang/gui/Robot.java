@@ -64,17 +64,17 @@ public interface Robot {
 	public enum Direction { LEFT, RIGHT, FORWARD, BACKWARD };
 	
 	/**
-	 * Provides the robot with a reference to the controller to cooperate with.
+	 * Provides the robot with a reference to the statePlaying to cooperate with.
 	 * The robot memorizes the controller such that this method is most likely called only once
 	 * and for initialization purposes. The controller serves as the main source of information
 	 * for the robot about the current position, the presence of walls, the reaching of an exit.
 	 * The controller is assumed to be in the playing state.
-	 * @param controller is the communication partner for robot
+	 * @param statePlaying is the communication partner for robot
 	 * @throws IllegalArgumentException if controller is null, 
 	 * or if controller is not in playing state, 
 	 * or if controller does not have a maze
 	 */
-	void setController(Controller controller);	
+	void setStatePlaying(StatePlaying statePlaying);
 	///////////////////////////////////////////////////////////////////
 	/////////////////// Current location in game   ////////////////////
 	///////////////////////////////////////////////////////////////////

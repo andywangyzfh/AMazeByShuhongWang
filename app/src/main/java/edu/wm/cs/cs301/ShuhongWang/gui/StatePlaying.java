@@ -35,6 +35,7 @@ public class StatePlaying extends DefaultState {
     MazePanel panel;
 //    Controller control;
     PlayManuallyActivity playManuallyActivity;
+    PlayAnimationActivity playAnimationActivity;
 
     Maze mazeConfig ; 
     
@@ -60,6 +61,10 @@ public class StatePlaying extends DefaultState {
 
     boolean started;
 
+    private Robot robot;
+    private RobotDriver driver;
+
+    private boolean manual;
 
     public StatePlaying() {
         started = false;
@@ -69,7 +74,25 @@ public class StatePlaying extends DefaultState {
         mazeConfig = config;
     }
 
-    public void setPlayManuallyActivity(PlayManuallyActivity playManuallyActivity) { this.playManuallyActivity = playManuallyActivity; }
+    /**
+     * set the robot and driver for play animation activity.
+     * @param robot the robot
+     * @param driver the robot driver
+     */
+    public void setRobotAndDriver(Robot robot, RobotDriver driver){
+        this.robot = robot;
+        this.driver = driver;
+    }
+
+    public void setPlayManuallyActivity(PlayManuallyActivity playManuallyActivity) {
+        this.playManuallyActivity = playManuallyActivity;
+        manual = true;
+    }
+
+    public void setPlayAnimationActivity(PlayAnimationActivity playAnimationActivity) {
+        this.playAnimationActivity = playAnimationActivity;
+        manual = false;
+    }
     /**
      * Start the actual game play by showing the playing screen.
      * If the panel is null, all drawing operations are skipped.

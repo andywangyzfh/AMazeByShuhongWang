@@ -1,10 +1,9 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,11 +13,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import edu.wm.cs.cs301.ShuhongWang.R;
+import edu.wm.cs.cs301.ShuhongWang.generation.DataHolder;
+import edu.wm.cs.cs301.ShuhongWang.generation.Maze;
 
 public class PlayAnimationActivity extends AppCompatActivity {
-    private String driver;
-    private String robot;
+    private String strDriver;
+    private String strRobot;
     private ToggleButton pause;
     private ToggleButton map;
     private Button zoomIn;
@@ -37,13 +40,41 @@ public class PlayAnimationActivity extends AppCompatActivity {
     private String log = "PlayAnimationActivity";
 //    private TextView txtMaze;
 
-    private int energyConsumption;
+    private int energyLeft;
     private int pathLength;
+
+    private Robot robot;
+    private RobotDriver driver;
+    private StatePlaying statePlaying;
+    private Maze maze;
+    private Handler handler;
+    private int[] sleepTime;
+    private MazePanel panel;
+    private Animation animation;
+    private boolean stopped;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_animation);
+
+        Intent intent = getIntent();
+        strRobot = intent.getStringExtra("robot");
+        strDriver = intent.getStringExtra("driver");
+        Log.v(log, "Received robot: " + strRobot);
+        Log.v(log, "Received driver: " + strDriver);
+        Toast.makeText(this, "Received driver: " + strDriver + "\n Robot: " + strRobot, Toast.LENGTH_SHORT).show();
+        handler = new Handler();
+        stopped = false;
+
+        panel = findViewById(R.id.maze_panel);
+        statePlaying = new StatePlaying();
+        maze = DataHolder.getInstance().getMazeConfig();
+        statePlaying.setMazeConfiguration(maze);
+        setRobot();
+        setDriver();
+        statePlaying.setRobotAndDriver(robot, driver);
+        statePlaying.setPlayAnimationActivity(this);
 
 //        txtMaze = (TextView) findViewById(R.id.txtMaze);
         setTogglePause();
@@ -55,16 +86,125 @@ public class PlayAnimationActivity extends AppCompatActivity {
         setButtonGo2Winning();
         setButtonGo2Losing();
         setSensorStatus();
+        sleepTime = new int[]{2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 400, 200 };
 
-        Intent intent = getIntent();
-        robot = intent.getStringExtra("robot");
-        driver = intent.getStringExtra("driver");
-        Log.v(log, "Received robot: " + robot);
-        Log.v(log, "Received driver: " + driver);
-        Toast.makeText(this, "Received driver: " + driver + "\n Robot: " + robot, Toast.LENGTH_SHORT).show();
-
-        energyConsumption = 0;
+        energyLeft = 3500;
         pathLength = 0;
+
+        statePlaying.start(panel);
+//        Handler animationHandler = new Handler();
+//        animationHandler.postDelayed(new Animation(), sleepTime[speed.getProgress()]);
+        animation = new Animation();
+    }
+
+    public void stopDriver() {
+        handler.removeCallbacks(animation);
+        animation = null;
+        handler = null;
+    }
+
+    private class Animation implements Runnable{
+        @Override
+        public void run() {
+            if (robot instanceof UnreliableRobot){
+                updateSensorStatus();
+            }
+            try {
+                if (!driver.drive1Step2Exit()){
+                    stopped = true;
+                    System.out.println("Animation: Failed @ drive1step2exit");
+                }
+                energyLeft = (int) robot.getBatteryLevel();
+                energy.setProgress(energyLeft);
+                txtEnergy.setText(energyLeft + "/3500");
+            } catch (Exception e) {
+                e.printStackTrace();
+                stopped = true;
+            }
+            if (stopped){
+                pathLength = robot.getOdometerReading();
+                startLosingActivity();
+                return;
+            }
+            if (robot.isAtExit()){
+                pathLength = robot.getOdometerReading();
+                startWinningActivity();
+                return;
+            }
+            handler.postDelayed(animation, sleepTime[speed.getProgress()]);
+        }
+
+        private void updateSensorStatus() {
+            boolean[] status = ((UnreliableRobot)robot).getSensorStatus();
+            if(status[0]){
+                leftSensor.setTextColor(Color.GREEN);
+            }
+            else{
+                leftSensor.setTextColor(Color.RED);
+            }
+            if(status[1]){
+                rightSensor.setTextColor(Color.GREEN);
+            }
+            else{
+                rightSensor.setTextColor(Color.RED);
+            }
+            if(status[2]){
+                forwardSensor.setTextColor(Color.GREEN);
+            }
+            else{
+                forwardSensor.setTextColor(Color.RED);
+            }
+            if(status[3]){
+                backSensor.setTextColor(Color.GREEN);
+            }
+            else{
+                backSensor.setTextColor(Color.RED);
+            }
+        }
+    }
+
+    private void setDriver() {
+        switch (strDriver){
+            case "Wall Follower":
+                driver = new WallFollower();
+                driver.setRobot(robot);
+                driver.setMaze(maze);
+                break;
+            case "Wizard":
+                driver = new Wizard();
+                driver.setRobot(robot);
+                driver.setMaze(maze);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void setRobot() {
+        if (strRobot.equals("Premium")){
+            robot = new ReliableRobot();
+            robot.setStatePlaying(statePlaying);
+            Log.v(log, "set a reliable robot");
+            return;
+        }
+        int[] sensorParam;
+        switch (strRobot){
+            case "Mediocre":
+                sensorParam = new int[]{1,0,0,1};
+                break;
+            case "Soso":
+                sensorParam = new int[]{0,1,1,0};
+                break;
+            case "Shaky":
+                sensorParam = new int[]{0,0,0,0};
+                break;
+            default:
+                sensorParam = new int[]{1,1,1,1};
+                break;
+        }
+        robot = new UnreliableRobot(sensorParam);
+        robot.setStatePlaying(statePlaying);
+        ((UnreliableRobot) robot).startRobot();
     }
 
     /**
@@ -76,14 +216,14 @@ public class PlayAnimationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v(log, "Toggled pause.");
-//                if (map.isChecked()){
-//                    pause.setTextOn("Running");
-//                    txtMaze.setText("Toggled animation.");
-//                }
-//                else{
-//                    pause.setTextOff("Paused");
-//                    txtMaze.setText("Toggled animation.");
-//                }
+                if (pause.isChecked()){
+                    handler.post(animation);
+                    Log.v(log, "Started animation");
+                }
+                else{
+                    handler.removeCallbacks(animation);
+                    Log.v(log, "Paused animation");
+                }
             }
         });
     }
@@ -96,6 +236,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ToggleLocalMap);
                 Log.v(log, "Toggled map.");
 //                if (map.isChecked()){
 //                    txtMaze.setText("Map On.");
@@ -116,6 +257,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         zoomIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ZoomIn);
                 Log.v(log, "Zoom in.");
 //                txtMaze.setText("Zoom in.");
             }
@@ -130,6 +272,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         zoomOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                statePlaying.keyDown(Constants.UserInput.ZoomOut);
                 Log.v(log, "Zoom out.");
 //                txtMaze.setText("Zoom out.");
             }
@@ -200,8 +343,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
     /**
      * Switch to winning state.
      */
-    private void startWinningActivity(){
+    public void startWinningActivity(){
         Intent intent = new Intent(this, WinningActivity.class);
+        intent.putExtra("energyConsumption", 3500 - energyLeft);
+        intent.putExtra("pathLength", pathLength);
         startActivity(intent);
         finish();
     }
@@ -209,8 +354,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
     /**
      * Switch to losing state.
      */
-    private void startLosingActivity(){
+    public void startLosingActivity(){
         Intent intent = new Intent(this, LosingActivity.class);
+        intent.putExtra("energyConsumption", 3500 - energyLeft);
+        intent.putExtra("pathLength", pathLength);
         startActivity(intent);
         finish();
     }
@@ -235,7 +382,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      */
     public void onBackPressed(){
         Intent intent = new Intent(this, AMazeActivity.class);
-        intent.putExtra("energyConsumption", energyConsumption);
+        intent.putExtra("energyConsumption", 3500 - energyLeft);
         intent.putExtra("pathLength", pathLength);
         Log.v(log, "Go back to title page");
         startActivity(intent);
