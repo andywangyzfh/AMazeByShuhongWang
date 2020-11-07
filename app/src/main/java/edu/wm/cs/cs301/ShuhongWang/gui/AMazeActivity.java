@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -32,6 +33,8 @@ public class AMazeActivity extends AppCompatActivity {
     private String algorithm;
     private boolean containRooms;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +43,9 @@ public class AMazeActivity extends AppCompatActivity {
         setSpinner();
         setButtonExplore();
         setButtonRevisit();
+
+        mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.title);
+        mediaPlayer.start();
     }
 
     /**
@@ -143,6 +149,7 @@ public class AMazeActivity extends AppCompatActivity {
      * Switch to generating state and start a new maze.
      */
     private void startExploreActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, GeneratingActivity.class);
         intent.putExtra("difficulty", difficulty);
         intent.putExtra("algorithm", algorithm);
@@ -157,6 +164,7 @@ public class AMazeActivity extends AppCompatActivity {
      * Switch to generating state and generate an old maze.
      */
     private void startRevisitActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, GeneratingActivity.class);
         intent.putExtra("difficulty", difficulty);
         intent.putExtra("algorithm", algorithm);

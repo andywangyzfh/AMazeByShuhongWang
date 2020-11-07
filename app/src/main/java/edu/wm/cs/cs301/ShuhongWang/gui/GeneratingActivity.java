@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,12 +53,16 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
 
     private boolean load;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generating);
 
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
+        mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.generating);
+        mediaPlayer.start();
 
         // Get settings from the previous state.
         Intent intent = getIntent();
@@ -320,6 +325,7 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
      * Switch to manual playing mode.
      */
     private void startPlayManuallyActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, PlayManuallyActivity.class);
 //        intent.putExtra("driver", driver);
 //        intent.putExtra("robot", robot);
@@ -332,6 +338,7 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
      * Switch to automatic playing mode.
      */
     private void startPlayAnimationActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, PlayAnimationActivity.class);
         intent.putExtra("driver", driver);
         intent.putExtra("robot", robot);
@@ -344,6 +351,7 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
      * Set up the back button.
      */
     public void onBackPressed(){
+        mediaPlayer.stop();
         if (!mazeGeneration.isCancelled()){
             mazeGeneration.cancel(true);
         }

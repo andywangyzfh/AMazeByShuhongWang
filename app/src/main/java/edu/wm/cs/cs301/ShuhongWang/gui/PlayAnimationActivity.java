@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
@@ -56,10 +57,15 @@ public class PlayAnimationActivity extends AppCompatActivity {
     private Animation animation;
     private boolean stopped;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_animation);
+
+        mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.gameplay);
+        mediaPlayer.start();
 
         Intent intent = getIntent();
         strRobot = intent.getStringExtra("robot");
@@ -353,6 +359,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      * Switch to winning state.
      */
     public void startWinningActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("energyConsumption", 3500 - energyLeft);
         intent.putExtra("pathLength", pathLength);
@@ -364,6 +371,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      * Switch to losing state.
      */
     public void startLosingActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, LosingActivity.class);
         intent.putExtra("energyConsumption", 3500 - energyLeft);
         intent.putExtra("pathLength", pathLength);
@@ -390,6 +398,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
      * Set up the back button.
      */
     public void onBackPressed(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, AMazeActivity.class);
         intent.putExtra("energyConsumption", 3500 - energyLeft);
         intent.putExtra("pathLength", pathLength);

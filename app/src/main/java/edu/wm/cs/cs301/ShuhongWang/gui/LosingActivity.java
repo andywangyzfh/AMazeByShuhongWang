@@ -2,6 +2,7 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -23,10 +24,16 @@ public class LosingActivity extends AppCompatActivity {
     private TextView txtEnergy;
     private TextView txtPathLength;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_losing);
+
+        mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.losing);
+        mediaPlayer.start();
+
         setButtonPlayAgain();
 
         Intent intent = getIntent();
@@ -68,6 +75,7 @@ public class LosingActivity extends AppCompatActivity {
      * Switch back to title.
      */
     private void goBackToTitle(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, AMazeActivity.class);
         startActivity(intent);
         finish();
@@ -77,6 +85,7 @@ public class LosingActivity extends AppCompatActivity {
      * Set up the back button.
      */
     public void onBackPressed(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, AMazeActivity.class);
         Log.v(log, "Go back to title page");
         startActivity(intent);

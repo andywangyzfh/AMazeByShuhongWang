@@ -3,6 +3,7 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -40,10 +41,15 @@ public class PlayManuallyActivity extends AppCompatActivity {
     private StatePlaying statePlaying;
     private Maze maze;
 
+    private MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_manually);
+
+        mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.gameplay);
+        mediaPlayer.start();
 
         pathLength = 0;
 
@@ -261,6 +267,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
      * Switch to state winning.
      */
     public void startWinningActivity(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("pathLength", pathLength);
         intent.putExtra("shortestPathLength", shortestPathLength);
@@ -273,6 +280,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
      * Set up the back button.
      */
     public void onBackPressed(){
+        mediaPlayer.stop();
         Intent intent = new Intent(this, AMazeActivity.class);
         Log.v(log, "Go back to title page");
         startActivity(intent);
