@@ -1,9 +1,12 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -92,6 +95,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
         pathLength = 0;
 
         statePlaying.start(panel);
+        map.setChecked(true);
+        statePlaying.keyDown(Constants.UserInput.ToggleLocalMap);
 //        Handler animationHandler = new Handler();
 //        animationHandler.postDelayed(new Animation(), sleepTime[speed.getProgress()]);
         animation = new Animation();
@@ -215,6 +220,10 @@ public class PlayAnimationActivity extends AppCompatActivity {
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create vibration
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+
                 Log.v(log, "Toggled pause.");
                 if (pause.isChecked()){
                     handler.post(animation);

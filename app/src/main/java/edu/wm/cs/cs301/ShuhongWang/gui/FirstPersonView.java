@@ -159,12 +159,12 @@ public class FirstPersonView {
 		// obtain a Graphics2D object we can draw on
 //		Graphics g = panel.getBufferGraphics() ;
         // viewers draw on the buffer graphics
-		System.out.println("FPV: draw start.");
+//		System.out.println("FPV: draw start.");
         if (null == panel) {
             System.out.println("FirstPersonDrawer.draw: can't get maze panel to draw on, skipping redraw operation") ;
             return;
         }
-		System.out.println("FPV: Panel is not null.");
+//		System.out.println("FPV: Panel is not null.");
 //        mazePanel = (Graphics2D) g ;
         mazePanel = panel;
 
@@ -174,7 +174,7 @@ public class FirstPersonView {
 
         // update graphics
         // draw background figure: black on bottom half, grey on top half
-		System.out.println("FPV: Start to draw background.");
+//		System.out.println("FPV: Start to draw background.");
         drawBackground(panel, percentToExit);
         // set color to white and draw what ever can be seen from the current position
         panel.setColor(Color.WHITE);
@@ -188,7 +188,7 @@ public class FirstPersonView {
         		drawRectCounter = drawRectLateCounter = drawRectWallCounter = 0;
         //
         drawAllVisibleSectors(bspRoot);
-        System.out.println("FPV: panel is operational: " + panel.isOperational());
+//        System.out.println("FPV: panel is operational: " + panel.isOperational());
 	}
 
 
@@ -413,7 +413,7 @@ public class FirstPersonView {
 	 */
 	private void drawWall(Wall wall) {
 
-		System.out.println("FPV: drawWall reached.");
+//		System.out.println("FPV: drawWall reached.");
 		drawRectCounter++; // debug, counter
 		
 		// some notes: 
@@ -445,12 +445,12 @@ public class FirstPersonView {
 		// gain more clarity on what information is actually needed
 //		mazePanel.setColor(wall.getColor());
 		mazePanel.setColor(Color.BLUE);
-		System.out.println("FPV: drawWall drawPolygon called.");
+//		System.out.println("FPV: drawWall drawPolygon called.");
 		boolean drawn = drawPolygons(x1, x2, y11, y12, y21, y22);
-		System.out.println("FPV: drawWall drawPolygon finished.");
+//		System.out.println("FPV: drawWall drawPolygon finished.");
 
 		if (drawn && !wall.isSeen()) {
-			System.out.println("FPV: drawWall add wall.");
+//			System.out.println("FPV: drawWall add wall.");
 			wall.setSeen(true); // updates the wall
 			// set the seenWalls bit for all wallboards of a wall
 			// the wall parameter given is not modified

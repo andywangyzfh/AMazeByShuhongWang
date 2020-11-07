@@ -1,8 +1,14 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ToggleButton;
@@ -61,9 +67,11 @@ public class PlayManuallyActivity extends AppCompatActivity {
         setButtonZoomIn();
         setButtonZoomOut();
         setButtonShortCut();
+        setSwipe();
 
         Log.v(log, "Start Playing Activity");
         statePlaying.start(mazePanel);
+
 
     }
 
@@ -91,6 +99,11 @@ public class PlayManuallyActivity extends AppCompatActivity {
         jump.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create vibration
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+
+                // Jump action
                 pathLength++;
                 statePlaying.keyDown(Constants.UserInput.Jump);
                 Log.v(log, "Clicked Jump.");
@@ -107,6 +120,12 @@ public class PlayManuallyActivity extends AppCompatActivity {
         left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // Create vibration
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+
+                // Turn left action
                 statePlaying.keyDown(Constants.UserInput.Left);
                 Log.v(log, "Clicked Left.");
 //                txtMaze.setText("Turn left.");
@@ -122,6 +141,11 @@ public class PlayManuallyActivity extends AppCompatActivity {
         right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create vibration
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+
+                // Turn right action
                 statePlaying.keyDown(Constants.UserInput.Right);
                 Log.v(log, "Clicked right.");
 //                txtMaze.setText("Turn right.");
@@ -253,5 +277,98 @@ public class PlayManuallyActivity extends AppCompatActivity {
         Log.v(log, "Go back to title page");
         startActivity(intent);
         finish();
+    }
+
+
+    /**
+     * The class to enable swipe feature.
+     */
+    public class OnSwipeTouchListener implements View.OnTouchListener {
+
+        private final GestureDetector gestureDetector;
+
+        public OnSwipeTouchListener (Context ctx){
+            gestureDetector = new GestureDetector(ctx, new GestureListener());
+        }
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return gestureDetector.onTouchEvent(event);
+        }
+
+        private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+            private static final int SWIPE_THRESHOLD = 100;
+            private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                boolean result = false;
+                try {
+                    float diffY = e2.getY() - e1.getY();
+                    float diffX = e2.getX() - e1.getX();
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight();
+                            } else {
+                                onSwipeLeft();
+                            }
+                            result = true;
+                        }
+                    }
+                    else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom();
+                        } else {
+                            onSwipeTop();
+                        }
+                        result = true;
+                    }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                return result;
+            }
+        }
+
+        public void onSwipeRight() {
+        }
+
+        public void onSwipeLeft() {
+        }
+
+        public void onSwipeTop() {
+        }
+
+        public void onSwipeBottom() {
+        }
+    }
+
+    /**
+     * Allow the user to swipe over MazePanel to navigate
+     */
+    @SuppressLint("ClickableViewAccessibility")
+    private void setSwipe(){
+        mazePanel.setOnTouchListener(new OnSwipeTouchListener(this) {
+            public void onSwipeTop() {
+                statePlaying.keyDown(Constants.UserInput.Up);
+            }
+            public void onSwipeRight() {
+                statePlaying.keyDown(Constants.UserInput.Right);
+            }
+            public void onSwipeLeft() {
+                statePlaying.keyDown(Constants.UserInput.Left);
+            }
+            public void onSwipeBottom() {
+                statePlaying.keyDown(Constants.UserInput.Jump);
+            }
+
+        });
     }
 }

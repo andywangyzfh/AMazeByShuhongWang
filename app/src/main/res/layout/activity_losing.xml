@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/lose"
     tools:context=".gui.LosingActivity">
 
     <TextView
@@ -34,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="Total energy consumption: 3500"
+        android:textColor="@color/black"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Total path length: 90"
+        android:textColor="@color/black"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

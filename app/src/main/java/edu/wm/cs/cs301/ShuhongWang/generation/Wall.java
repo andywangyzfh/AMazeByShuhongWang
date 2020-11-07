@@ -1,6 +1,8 @@
 package edu.wm.cs.cs301.ShuhongWang.generation;
 
 //import java.awt.Color;
+import android.graphics.Color;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -279,7 +281,8 @@ public class Wall {
         MazeFileWriter.appendChild(doc, mazeXML, "ySeg_" + number + "_" + i,
                 getStartPositionY());
         MazeFileWriter.appendChild(doc, mazeXML, "colSeg_" + number + "_" + i,
-                mazePanel.getColor());
+//                mazePanel.getColor());
+                Color.BLUE);
     }
 
     /**

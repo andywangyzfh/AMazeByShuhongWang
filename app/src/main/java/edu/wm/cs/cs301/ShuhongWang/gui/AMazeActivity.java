@@ -1,9 +1,10 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +116,10 @@ public class AMazeActivity extends AppCompatActivity {
         revisit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                // Create vibration
+                Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+
                 // Load difficulty
                 int valDifficulty = sbDifficulty.getProgress();
                 difficulty = String.valueOf(valDifficulty);
@@ -140,6 +147,7 @@ public class AMazeActivity extends AppCompatActivity {
         intent.putExtra("difficulty", difficulty);
         intent.putExtra("algorithm", algorithm);
         intent.putExtra("containRooms", containRooms);
+        intent.putExtra("load", false);
         Log.v("AMazeActivity", "explore activity started");
         startActivity(intent);
         finish();
@@ -153,6 +161,7 @@ public class AMazeActivity extends AppCompatActivity {
         intent.putExtra("difficulty", difficulty);
         intent.putExtra("algorithm", algorithm);
         intent.putExtra("containRooms", containRooms);
+        intent.putExtra("load", true);
         Log.v("AMazeActivity", "revisit activity started");
         startActivity(intent);
         finish();

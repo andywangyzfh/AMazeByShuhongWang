@@ -1,7 +1,10 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +35,10 @@ public class LosingActivity extends AppCompatActivity {
         Log.v(log, "Received energyConsumed: " + String.valueOf(energyConsumed));
         Log.v(log, "Received pathLength: " + String.valueOf(pathLength));
 //        Toast.makeText(this, "Received energyConsumed: " + String.valueOf(energyConsumed) + "\n pathLength: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
+
+        // Create vibration
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
 
         setText();
     }

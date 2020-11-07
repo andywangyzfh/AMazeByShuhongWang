@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mariowp"
     tools:context=".gui.AMazeActivity">
 
     <TextView
@@ -11,8 +12,9 @@
         android:layout_width="257dp"
         android:layout_height="94dp"
         android:layout_marginTop="80dp"
-        android:text="@string/welcome"
+        android:text="Solve the Maze with Mario!"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Choose complexity:"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Difficulty: 0/9"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/sb_difficulty"
         app:layout_constraintTop_toBottomOf="@+id/sb_difficulty" />
 
@@ -51,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
+        android:textColor="@color/black"
         android:text="Choose a generating algorithm:"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/txt_difficulty" />
@@ -69,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Generate with rooms"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/spinner_maze"
         app:layout_constraintTop_toBottomOf="@+id/spinner_maze" />
 
@@ -95,5 +101,16 @@
         android:text="Explore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch_rooms" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Solve the maze with Mario and save Princess Peach!"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
