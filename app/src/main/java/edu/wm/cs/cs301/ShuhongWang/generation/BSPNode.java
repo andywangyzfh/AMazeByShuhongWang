@@ -6,8 +6,6 @@ package edu.wm.cs.cs301.ShuhongWang.generation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import edu.wm.cs.cs301.ShuhongWang.gui.MazeFileWriter;
-
 /**
  * BSPNodes are used to build a binary tree, where internal nodes keep track 
  * of lower and upper bounds of (x,y) coordinates.
@@ -38,16 +36,16 @@ public class BSPNode {
 	 * @return the highest used index number, in this case the given number
 	 */
 	public int store(Document doc, Element mazeXML, int number) {
-		// xlBSPNode elements
-		MazeFileWriter.appendChild(doc, mazeXML, "xlBSPNode_" + number, lowX) ;
-		// ylBSPNode elements
-		MazeFileWriter.appendChild(doc, mazeXML, "ylBSPNode_" + number, lowY) ;
-		// xuBSPNode elements
-		MazeFileWriter.appendChild(doc, mazeXML, "xuBSPNode_" + number, highX) ;
-		// yuBSPNode elements
-		MazeFileWriter.appendChild(doc, mazeXML, "yuBSPNode_" + number, highY) ;
-		// isleafBSPNode elements
-		MazeFileWriter.appendChild(doc, mazeXML, "isleafBSPNode_" + number, isIsleaf()) ;
+//		// xlBSPNode elements
+//		MazeFileWriter.appendChild(doc, mazeXML, "xlBSPNode_" + number, lowX) ;
+//		// ylBSPNode elements
+//		MazeFileWriter.appendChild(doc, mazeXML, "ylBSPNode_" + number, lowY) ;
+//		// xuBSPNode elements
+//		MazeFileWriter.appendChild(doc, mazeXML, "xuBSPNode_" + number, highX) ;
+//		// yuBSPNode elements
+//		MazeFileWriter.appendChild(doc, mazeXML, "yuBSPNode_" + number, highY) ;
+//		// isleafBSPNode elements
+//		MazeFileWriter.appendChild(doc, mazeXML, "isleafBSPNode_" + number, isIsleaf()) ;
 
 		return number ; // unchanged
 	}

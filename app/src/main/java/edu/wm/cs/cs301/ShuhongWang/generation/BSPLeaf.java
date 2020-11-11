@@ -8,8 +8,6 @@ import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 
-import edu.wm.cs.cs301.ShuhongWang.gui.MazeFileWriter;
-
 /**
  * A leaf node for a tree of BSPNodes. It carries a list of walls. 
  * 
@@ -80,7 +78,7 @@ public class BSPLeaf extends BSPNode {
 		if (isIsleaf() == false)
 			System.out.println("WARNING: isleaf flag and class are inconsistent!");
 		// store list of walls, store total number of elements first
-		MazeFileWriter.appendChild(doc, mazeXML, "numSeg_" + number, walls.size()) ;
+//		MazeFileWriter.appendChild(doc, mazeXML, "numSeg_" + number, walls.size()) ;
 		int i = 0 ;
 		for (Wall s : walls)
 		{

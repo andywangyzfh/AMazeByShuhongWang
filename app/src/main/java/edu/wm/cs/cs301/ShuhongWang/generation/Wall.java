@@ -1,14 +1,11 @@
 package edu.wm.cs.cs301.ShuhongWang.generation;
 
 //import java.awt.Color;
-import android.graphics.Color;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 
-import edu.wm.cs.cs301.ShuhongWang.gui.MazeFileWriter;
 import edu.wm.cs.cs301.ShuhongWang.gui.MazePanel;
 
 /**
@@ -266,23 +263,23 @@ public class Wall {
      */
     public void storeWall(final Document doc, final Element mazeXML,
             final int number, final int i) {
-        MazeFileWriter.appendChild(doc, mazeXML, "distSeg_" + number + "_" + i,
-                dist);
-        MazeFileWriter.appendChild(doc, mazeXML, "dxSeg_" + number + "_" + i,
-                getExtensionX());
-        MazeFileWriter.appendChild(doc, mazeXML, "dySeg_" + number + "_" + i,
-                getExtensionY());
-        MazeFileWriter.appendChild(doc, mazeXML,
-                "partitionSeg_" + number + "_" + i, isPartition());
-        MazeFileWriter.appendChild(doc, mazeXML, "seenSeg_" + number + "_" + i,
-                isSeen());
-        MazeFileWriter.appendChild(doc, mazeXML, "xSeg_" + number + "_" + i,
-                getStartPositionX());
-        MazeFileWriter.appendChild(doc, mazeXML, "ySeg_" + number + "_" + i,
-                getStartPositionY());
-        MazeFileWriter.appendChild(doc, mazeXML, "colSeg_" + number + "_" + i,
-//                mazePanel.getColor());
-                Color.BLUE);
+//        MazeFileWriter.appendChild(doc, mazeXML, "distSeg_" + number + "_" + i,
+//                dist);
+//        MazeFileWriter.appendChild(doc, mazeXML, "dxSeg_" + number + "_" + i,
+//                getExtensionX());
+//        MazeFileWriter.appendChild(doc, mazeXML, "dySeg_" + number + "_" + i,
+//                getExtensionY());
+//        MazeFileWriter.appendChild(doc, mazeXML,
+//                "partitionSeg_" + number + "_" + i, isPartition());
+//        MazeFileWriter.appendChild(doc, mazeXML, "seenSeg_" + number + "_" + i,
+//                isSeen());
+//        MazeFileWriter.appendChild(doc, mazeXML, "xSeg_" + number + "_" + i,
+//                getStartPositionX());
+//        MazeFileWriter.appendChild(doc, mazeXML, "ySeg_" + number + "_" + i,
+//                getStartPositionY());
+//        MazeFileWriter.appendChild(doc, mazeXML, "colSeg_" + number + "_" + i,
+////                mazePanel.getColor());
+//                Color.BLUE);
     }
 
     /**

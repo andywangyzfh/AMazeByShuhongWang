@@ -198,7 +198,7 @@ public class StatePlaying extends DefaultState {
     /**
      * Method incorporates all reactions to keyboard input in original code, 
      * The simple key listener calls this method to communicate input.
-     * Method requires {@link #start(Controller, MazePanel) start} to be
+     * Method requires {@link #start( MazePanel) start} to be
      * called before.
      * @param key provides the feature the user selected
      * @return false if not started yet otherwise true

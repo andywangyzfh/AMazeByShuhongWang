@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 //import gui.MazeFileWriter;
-import edu.wm.cs.cs301.ShuhongWang.gui.MazeFileWriter;
+
 
 /**
  * BSPNodes are used to build a binary tree, where internal nodes keep track 
@@ -91,16 +91,16 @@ public class BSPBranch extends BSPNode {
 		if (isIsleaf() == true)
 			System.out.println("WARNING: isleaf flag and class are inconsistent!");
 		// store: x, y, dx, dy
-		MazeFileWriter.appendChild(doc, mazeXML, "xBSPNode_" + number, getX()) ;
-		MazeFileWriter.appendChild(doc, mazeXML, "yBSPNode_" + number, getY()) ;
-		MazeFileWriter.appendChild(doc, mazeXML, "dxBSPNode_" + number, getDx()) ;
-		MazeFileWriter.appendChild(doc, mazeXML, "dyBSPNode_" + number, getDy()) ;
+//		MazeFileWriter.appendChild(doc, mazeXML, "xBSPNode_" + number, getX()) ;
+//		MazeFileWriter.appendChild(doc, mazeXML, "yBSPNode_" + number, getY()) ;
+//		MazeFileWriter.appendChild(doc, mazeXML, "dxBSPNode_" + number, getDx()) ;
+//		MazeFileWriter.appendChild(doc, mazeXML, "dyBSPNode_" + number, getDy()) ;
 		// recursively store left and right branches
 		if (lbranch == null)
 		{
 			// this is likely to be dead code as BSPBranches seem to have always 2 children
 			number++ ;
-			MazeFileWriter.appendChild(doc, mazeXML, "xlBSPNode_" + number, Integer.MIN_VALUE) ;
+//			MazeFileWriter.appendChild(doc, mazeXML, "xlBSPNode_" + number, Integer.MIN_VALUE) ;
 		}
 		else
 		{
@@ -115,7 +115,7 @@ public class BSPBranch extends BSPNode {
 		{
 			// this is likely to be dead code as BSPBranches seem to have always 2 children
 			number++ ;
-			MazeFileWriter.appendChild(doc, mazeXML, "xlBSPNode_" + number, Integer.MAX_VALUE) ;
+//			MazeFileWriter.appendChild(doc, mazeXML, "xlBSPNode_" + number, Integer.MAX_VALUE) ;
 		}
 		else
 		{

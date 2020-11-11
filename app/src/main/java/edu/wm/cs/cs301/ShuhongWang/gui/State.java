@@ -24,7 +24,7 @@ public interface State {
 	 * @param controller is a reference to the current controller
 	 * @param panel is the panel to draw graphics on
 	 */
-    void start(Controller controller, MazePanel panel);
+    void start(MazePanel panel);
     /**
      * Sets the filename that is used to load a maze from
      * @param filename for a maze

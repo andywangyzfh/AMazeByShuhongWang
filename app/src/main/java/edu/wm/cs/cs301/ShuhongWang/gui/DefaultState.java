@@ -19,7 +19,7 @@ import edu.wm.cs.cs301.ShuhongWang.generation.Order.Builder;
 public class DefaultState implements State {
 
     @Override
-    public void start(Controller controller, MazePanel panel) {
+    public void start( MazePanel panel) {
         throw new RuntimeException("DefaultState:using unimplemented method");    
     }
 
