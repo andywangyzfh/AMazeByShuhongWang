@@ -271,6 +271,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WinningActivity.class);
         intent.putExtra("pathLength", pathLength);
         intent.putExtra("shortestPathLength", shortestPathLength);
+        intent.putExtra("manual", true);
         Log.v(log, "start WinningActivity. ");
         startActivity(intent);
         finish();

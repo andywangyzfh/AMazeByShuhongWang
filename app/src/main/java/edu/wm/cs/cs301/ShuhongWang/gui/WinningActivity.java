@@ -21,6 +21,7 @@ public class WinningActivity extends AppCompatActivity {
     private TextView txtPathLength;
     private TextView txtIdealPathLength;
     private int energy;
+    private boolean manual;
 
     private MediaPlayer mediaPlayer;
 
@@ -36,6 +37,7 @@ public class WinningActivity extends AppCompatActivity {
         pathLength = intent.getIntExtra("pathLength", 0);
         shortestPathLength = intent.getIntExtra("shortestPathLength", 0);
         energy = intent.getIntExtra("energyConsumption", 0);
+        manual = intent.getBooleanExtra("manual", false);
         Log.v(log, "Received path length: " + String.valueOf(pathLength));
         Toast.makeText(this, "Received path length: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Received shortest path length: " + String.valueOf(shortestPathLength), Toast.LENGTH_SHORT).show();
@@ -51,8 +53,10 @@ public class WinningActivity extends AppCompatActivity {
         txtPathLength = findViewById(R.id.txtPathLength);
         txtIdealPathLength = findViewById(R.id.txtIdealPathLength);
         txtPathLength.setText("Total path length you walked: " + pathLength);
-        txtIdealPathLength.setText("Shortest possible path length: " + shortestPathLength);
-        if (energy != 0){
+        if (manual) {
+            txtIdealPathLength.setText("Shortest possible path length: " + shortestPathLength);
+        }
+        else{
             txtIdealPathLength.setText("Total Energy Consumption: " + energy);
         }
     }

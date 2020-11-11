@@ -2,13 +2,13 @@ package edu.wm.cs.cs301.ShuhongWang.gui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.transition.Slide;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -60,9 +59,10 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generating);
 
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
+        // Set BGM of this activity
         mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.generating);
         mediaPlayer.start();
+        Log.v(log, "BGM started");
 
         // Get settings from the previous state.
         Intent intent = getIntent();
@@ -76,6 +76,7 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
         Log.v(log, "ContainRooms: " + String.valueOf(containRooms));
         Log.v(log, "Load old maze: " + load);
 
+        // Initialize classes and buttons
         handler = new Handler();
         mazeFactory = new MazeFactory();
         setMazeBuilder(builder);
@@ -90,12 +91,12 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
         setProgressBar();
         setButtonStart();
 
+        // Start maze generation process
         mazeGeneration = new MazeGeneration();
         mazeGeneration.execute(100);
+        Log.v(log, "finished maze generation");
 
-        Toast.makeText(this, "Received builder:" + builder + "\n Difficulty: " + difficulty + "\n Contain rooms: " + String.valueOf(containRooms), Toast.LENGTH_SHORT).show();
-
-        getWindow().setExitTransition(new Slide());
+//        Toast.makeText(this, "Received builder:" + builder + "\n Difficulty: " + difficulty + "\n Contain rooms: " + String.valueOf(containRooms), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -119,16 +120,25 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
     @Override
     public void deliver(Maze mazeConfig) {
         DataHolder.getInstance().setMazeConfig(mazeConfig);
-        String filename = "maze" + difficulty + "-" + builder + "-" + String.valueOf(containRooms);
-        writeFile(filename, mazeConfig);
+//        String filename = "maze" + difficulty + "-" + builder + "-" + String.valueOf(containRooms);
+        writeFile();
     }
 
-    private void writeFile(String filename, Maze mazeConfig) {
-        File file = new File(this.getApplicationContext().getFilesDir(), filename);
-        MazeFileWriter mazeFileWriter = new MazeFileWriter();
-        mazeFileWriter.store(filename,mazeConfig.getWidth(), mazeConfig.getHeight(), 0,0, mazeConfig.getRootnode(),
-                mazeConfig.getFloorplan(), mazeConfig.getMazedists().getAllDistanceValues(),  mazeConfig.getStartingPosition()[0], mazeConfig.getStartingPosition()[1]);
-
+    /**
+     * Write the generated maze into a XML file
+     */
+    private void writeFile() {
+//        File file = new File(this.getApplicationContext().getFilesDir(), filename);
+//        MazeFileWriter mazeFileWriter = new MazeFileWriter();
+//        mazeFileWriter.store(filename,mazeConfig.getWidth(), mazeConfig.getHeight(), 0,0, mazeConfig.getRootnode(),
+//                mazeConfig.getFloorplan(), mazeConfig.getMazedists().getAllDistanceValues(),  mazeConfig.getStartingPosition()[0], mazeConfig.getStartingPosition()[1]);
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("skillLevel", this.skillLevel);
+        editor.putString("builder", this.builder);
+        editor.putBoolean("perfect", !this.containRooms);
+        editor.putInt("seed", this.getSeed());
+        editor.apply();
     }
 
     @Override
@@ -146,48 +156,73 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
         }
     }
 
+    /**
+     * The method to generate a new maze.
+     */
     public void generateNewMaze(){
         mazeFactory.order(this);
     }
 
+    /**
+     * The method to load an old maze from a file.
+     */
     public void loadMaze(){
-        String filename = "maze" + difficulty + "-" + builder + "-" + String.valueOf(containRooms);
-        MazeFileReader mazeFileReader = new MazeFileReader(filename, new MazePanel(getApplicationContext()));
-        DataHolder.getInstance().setMazeConfig(mazeFileReader.getMazeConfiguration());
+//        String filename = "maze" + difficulty + "-" + builder + "-" + String.valueOf(containRooms);
+//        MazeFileReader mazeFileReader = new MazeFileReader(filename, new MazePanel(getApplicationContext()));
+//        DataHolder.getInstance().setMazeConfig(mazeFileReader.getMazeConfiguration());
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        skillLevel = sharedPref.getInt("skillLevel", 0);
+        builder = sharedPref.getString("builder", "DFS");
+        boolean perfect = sharedPref.getBoolean("perfect", true);
+        int seed = sharedPref.getInt("seed", 13);
+        setMazeBuilder(builder);
+        DataHolder.getInstance().setSkillLevel(skillLevel);
+        DataHolder.getInstance().setPerfect(perfect);
+        DataHolder.getInstance().setSeed(seed);
+
+        Log.v(log, "Maze loaded");
     }
 
+    public boolean existSavedMaze(){
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        int skill = sharedPref.getInt("skillLevel", 100);
+        return skill < 50;
+    }
+    /**
+     * the internal class for maze generation. Use AsyncTask to generate the maze.
+     */
     private class MazeGeneration extends AsyncTask<Integer, Integer, String> {
         @Override
         protected void onPreExecute() {
             progress = 0;
             Log.v(log, "Maze Generation Starts");
             if (load){
-                // set file name according to the configuration
-                String filename = "maze" + difficulty + "-" + builder + "-" + String.valueOf(containRooms);
-                File file = getApplicationContext().getFileStreamPath(filename);
-                if(file == null || !file.exists()){
-                    load = false;
-                    Toast.makeText(GeneratingActivity.this, "Old Maze do not exist! Creating a new one instead.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                // set file name according to the configuration
+//                String filename = "maze" + difficulty + "-" + builder + "-" + String.valueOf(containRooms);
+//                File file = getApplicationContext().getFileStreamPath(filename);
+//                // if the file does not exist, generate a new one instead.
+//                if(file == null || !file.exists()){
+//                    load = false;
+//                    Toast.makeText(GeneratingActivity.this, "Old Maze do not exist! Creating a new one instead.", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 //                MazeFileReader mazeFileReader = new MazeFileReader(filename, new MazePanel(getApplicationContext()));
+                load = existSavedMaze();
             }
         }
 
         @Override
         protected String doInBackground(Integer... integers) {
-            if (!load){
-                generateNewMaze();
-            }
-            else{
+            if (load){
                 loadMaze();
             }
+            generateNewMaze();
             return "Maze Generation Done";
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-//            super.onProgressUpdate(values);
+            // update the progress bar
             progressBar.setProgress(values[0]);
             txtProgress.setText(String.valueOf(values[0]) + "%");
         }
@@ -210,15 +245,27 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
         }
     }
 
+    /**
+     * setter for perfectness.
+     * @param containRooms
+     */
     private void setPerfect(boolean containRooms) {
         DataHolder.getInstance().setPerfect(!containRooms);
     }
 
+    /**
+     * setters for skill level
+     * @param difficulty
+     */
     private void setSkillLevel(String difficulty) {
         skillLevel = Integer.valueOf(difficulty);
         DataHolder.getInstance().setSkillLevel(skillLevel);
     }
 
+    /**
+     * setters for maze builder
+     * @param builder
+     */
     private void setMazeBuilder(String builder) {
         if (builder.equals("DFS")){
             mazeBuilder = Order.Builder.DFS;
@@ -265,27 +312,7 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
         txtProgress = (TextView) findViewById(R.id.txt_progress);
         progressBar.setProgress(0);
         progressBar.setMax(100);
-//
-//        // Start a thread for testing in project 6.
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                while (progress < 100){
-//                    progress++;
-//                    try {
-//                        Thread.sleep(1);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    handler.post(new Runnable() {
-//                        public void run() {
-//                            progressBar.setProgress(progress);
-//                            txtProgress.setText(String.valueOf(progress) + "%");
-//                        }
-//                    });
-//                }
-//            }
-//        }).start();
+        Log.v(log, "progress bar set");
     }
 
     /**
@@ -327,8 +354,6 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
     private void startPlayManuallyActivity(){
         mediaPlayer.stop();
         Intent intent = new Intent(this, PlayManuallyActivity.class);
-//        intent.putExtra("driver", driver);
-//        intent.putExtra("robot", robot);
         Log.v(log, "Started PlayManuallyActivity. ");
         startActivity(intent);
         finish();
@@ -351,11 +376,15 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
      * Set up the back button.
      */
     public void onBackPressed(){
+        // stop the music
         mediaPlayer.stop();
+
+        // if the generating process in progress, cancel it.
         if (!mazeGeneration.isCancelled()){
             mazeGeneration.cancel(true);
         }
 
+        // move to the title page
         Intent intent = new Intent(this, AMazeActivity.class);
         Log.v(log, "Go back to title page");
         startActivity(intent);
