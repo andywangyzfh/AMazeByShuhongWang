@@ -30,7 +30,7 @@ public class PlayManuallyActivity extends AppCompatActivity {
     private ToggleButton showWalls;
     private Button zoomIn;
     private Button zoomOut;
-    private Button shortCut;
+//    private Button shortCut;
 
     private int pathLength;
     private int shortestPathLength;
@@ -72,11 +72,13 @@ public class PlayManuallyActivity extends AppCompatActivity {
         setToggleWalls();
         setButtonZoomIn();
         setButtonZoomOut();
-        setButtonShortCut();
+//        setButtonShortCut();
         setSwipe();
+        Log.v(log, "finished components initialization");
 
         Log.v(log, "Start Playing Activity");
         statePlaying.start(mazePanel);
+        Log.v(log, "Finished initializingh Playing Activity");
 
 
     }
@@ -249,19 +251,19 @@ public class PlayManuallyActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Set up the short cut button to go to winning state.
-     */
-    private void setButtonShortCut() {
-        shortCut = (Button) findViewById(R.id.ShortCut);
-        shortCut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v(log, "Switch to state winning. ");
-                startWinningActivity();
-            }
-        });
-    }
+//    /**
+//     * Set up the short cut button to go to winning state.
+//     */
+//    private void setButtonShortCut() {
+//        shortCut = (Button) findViewById(R.id.ShortCut);
+//        shortCut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.v(log, "Switch to state winning. ");
+//                startWinningActivity();
+//            }
+//        });
+//    }
 
     /**
      * Switch to state winning.

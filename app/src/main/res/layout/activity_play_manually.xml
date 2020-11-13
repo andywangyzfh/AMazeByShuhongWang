@@ -115,14 +115,6 @@
         app:layout_constraintEnd_toEndOf="@+id/tb_walls"
         app:layout_constraintTop_toTopOf="@+id/button_forward" />
 
-    <Button
-        android:id="@+id/ShortCut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="shortcut"
-        app:layout_constraintEnd_toEndOf="@+id/button_zoomOut"
-        app:layout_constraintTop_toBottomOf="@+id/button_right" />
-
     <!--        class="edu.wm.cs.cs301.ShuhongWang.gui.MazePanel"-->
     <edu.wm.cs.cs301.ShuhongWang.gui.MazePanel
         android:id="@+id/mazePanel"

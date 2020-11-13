@@ -81,23 +81,6 @@
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
-    <Button
-        android:id="@+id/Go2Winning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go2Winning"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toTopOf="@+id/Go2Losing" />
-
-    <Button
-        android:id="@+id/Go2Losing"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Go2Losing"
-        app:layout_constraintEnd_toEndOf="@+id/pbEnergy"
-        app:layout_constraintTop_toBottomOf="@+id/sbSpeed" />
-
     <ToggleButton
         android:id="@+id/tbPause"
         android:layout_width="wrap_content"

@@ -31,11 +31,13 @@ public class LosingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_losing);
 
+        // start to play music
         mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.losing);
         mediaPlayer.start();
 
         setButtonPlayAgain();
 
+        // Get information from the last intent
         Intent intent = getIntent();
         energyConsumed = intent.getIntExtra("energyConsumed", 0);
         pathLength = intent.getIntExtra("pathLength", 0);
@@ -50,6 +52,9 @@ public class LosingActivity extends AppCompatActivity {
         setText();
     }
 
+    /**
+     * Set the text displayed on the screen
+     */
     private void setText() {
         txtEnergy = findViewById(R.id.txt_energy_consumption);
         txtPathLength = findViewById(R.id.txt_path_length);

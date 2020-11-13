@@ -30,9 +30,11 @@ public class WinningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_winning);
 
+        // play the BGM
         mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.winning);
         mediaPlayer.start();
 
+        // Get information from the last activity
         Intent intent = getIntent();
         pathLength = intent.getIntExtra("pathLength", 0);
         shortestPathLength = intent.getIntExtra("shortestPathLength", 0);

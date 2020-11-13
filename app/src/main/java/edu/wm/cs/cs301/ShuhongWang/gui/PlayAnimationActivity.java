@@ -30,8 +30,8 @@ public class PlayAnimationActivity extends AppCompatActivity {
     private ToggleButton map;
     private Button zoomIn;
     private Button zoomOut;
-    private Button go2Winning;
-    private Button go2Losing;
+//    private Button go2Winning;
+//    private Button go2Losing;
     private SeekBar speed;
     private TextView txtSpeed;
     private ProgressBar energy;
@@ -64,9 +64,11 @@ public class PlayAnimationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_animation);
 
+        // Start BGM
         mediaPlayer = MediaPlayer.create(this.getApplicationContext(), R.raw.gameplay);
         mediaPlayer.start();
 
+        // get information from generating activity
         Intent intent = getIntent();
         strRobot = intent.getStringExtra("robot");
         strDriver = intent.getStringExtra("driver");
@@ -76,6 +78,7 @@ public class PlayAnimationActivity extends AppCompatActivity {
         handler = new Handler();
         stopped = false;
 
+        // Set up maze panel and statePlaying
         panel = findViewById(R.id.maze_panel);
         statePlaying = new StatePlaying();
         maze = DataHolder.getInstance().getMazeConfig();
@@ -85,21 +88,21 @@ public class PlayAnimationActivity extends AppCompatActivity {
         statePlaying.setRobotAndDriver(robot, driver);
         statePlaying.setPlayAnimationActivity(this);
 
-//        txtMaze = (TextView) findViewById(R.id.txtMaze);
+        // Set up the buttons
         setTogglePause();
         setToggleMap();
         setButtonZoomIn();
         setButtonZoomOut();
         setSeekBarSpeed();
         setProgressBarEnergy();
-        setButtonGo2Winning();
-        setButtonGo2Losing();
         setSensorStatus();
         sleepTime = new int[]{2000, 1800, 1600, 1400, 1200, 1000, 800, 600, 400, 200 };
 
+        // set up energy and path length
         energyLeft = 3500;
         pathLength = 0;
 
+        // start state playing and start the animation
         statePlaying.start(panel);
         map.setChecked(true);
         statePlaying.keyDown(Constants.UserInput.ToggleLocalMap);
@@ -108,18 +111,23 @@ public class PlayAnimationActivity extends AppCompatActivity {
         animation = new Animation();
     }
 
-    public void stopDriver() {
-        handler.removeCallbacks(animation);
-        animation = null;
-        handler = null;
-    }
+//    public void stopDriver() {
+//        handler.removeCallbacks(animation);
+//        animation = null;
+//        handler = null;
+//    }
 
+    /**
+     * The private class to handle the animation process.
+     */
     private class Animation implements Runnable{
         @Override
         public void run() {
+            // update the sensor status
             if (robot instanceof UnreliableRobot){
                 updateSensorStatus();
             }
+            // move one step forward
             try {
                 if (!driver.drive1Step2Exit()){
                     stopped = true;
@@ -132,19 +140,25 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 e.printStackTrace();
                 stopped = true;
             }
+            // if failed, switch to losing activity
             if (stopped){
                 pathLength = robot.getOdometerReading();
                 startLosingActivity();
                 return;
             }
+            // if reached the exit, switch to winning activity.
             if (robot.isAtExit()){
                 pathLength = robot.getOdometerReading();
                 startWinningActivity();
                 return;
             }
+            // Wait some time before proceeding to the next move. The time is based on the choice of the usr.
             handler.postDelayed(animation, sleepTime[speed.getProgress()]);
         }
 
+        /**
+         * Show the sensor status on the top-right of the screen
+         */
         private void updateSensorStatus() {
             boolean[] status = ((UnreliableRobot)robot).getSensorStatus();
             if(status[0]){
@@ -174,6 +188,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialize the driver according to the parameter
+     */
     private void setDriver() {
         switch (strDriver){
             case "Wall Follower":
@@ -191,6 +208,9 @@ public class PlayAnimationActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialize the robot according to the parameter
+     */
     private void setRobot() {
         if (strRobot.equals("Premium")){
             robot = new ReliableRobot();
@@ -231,10 +251,12 @@ public class PlayAnimationActivity extends AppCompatActivity {
                 vibrator.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
 
                 Log.v(log, "Toggled pause.");
+                // if paused, stop the animation
                 if (pause.isChecked()){
                     handler.post(animation);
                     Log.v(log, "Started animation");
                 }
+                // if not paused, continue the animation.
                 else{
                     handler.removeCallbacks(animation);
                     Log.v(log, "Paused animation");
@@ -253,12 +275,6 @@ public class PlayAnimationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 statePlaying.keyDown(Constants.UserInput.ToggleLocalMap);
                 Log.v(log, "Toggled map.");
-//                if (map.isChecked()){
-//                    txtMaze.setText("Map On.");
-//                }
-//                else{
-//                    txtMaze.setText("Map Off.");
-//                }
             }
         });
     }
@@ -327,33 +343,33 @@ public class PlayAnimationActivity extends AppCompatActivity {
         txtEnergy.setText("Remaining energy: 3500");
     }
 
-    /**
-     * set up the button for going to the winning state
-     */
-    private void setButtonGo2Winning(){
-        go2Winning = (Button) findViewById(R.id.Go2Winning);
-        go2Winning.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v(log, "Clicked Go2Winning");
-                startWinningActivity();
-            }
-        });
-    }
-
-    /**
-     * set up the button for going to the losing state
-     */
-    private void setButtonGo2Losing(){
-        go2Losing = (Button) findViewById(R.id.Go2Losing);
-        go2Losing.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.v(log, "Clicked Go2Losing");
-                startLosingActivity();
-            }
-        });
-    }
+//    /**
+//     * set up the button for going to the winning state
+//     */
+//    private void setButtonGo2Winning(){
+//        go2Winning = (Button) findViewById(R.id.Go2Winning);
+//        go2Winning.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.v(log, "Clicked Go2Winning");
+//                startWinningActivity();
+//            }
+//        });
+//    }
+//
+//    /**
+//     * set up the button for going to the losing state
+//     */
+//    private void setButtonGo2Losing(){
+//        go2Losing = (Button) findViewById(R.id.Go2Losing);
+//        go2Losing.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.v(log, "Clicked Go2Losing");
+//                startLosingActivity();
+//            }
+//        });
+//    }
 
     /**
      * Switch to winning state.

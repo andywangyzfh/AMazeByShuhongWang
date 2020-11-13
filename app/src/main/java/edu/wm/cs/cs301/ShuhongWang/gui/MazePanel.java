@@ -37,6 +37,10 @@ public class MazePanel extends View {
 
     private Typeface markerFont;
 
+    /**
+     * The constructor to initiate the panel
+     * @param context
+     */
     public MazePanel(Context context) {
         super(context);
         bitmap = Bitmap.createBitmap(1200, 1200, Bitmap.Config.ARGB_8888);
@@ -48,6 +52,11 @@ public class MazePanel extends View {
 //        this.myTestImage(canvas);
     }
 
+    /**
+     * The constructor to initiate the panel with attribute sets
+     * @param context
+     * @param attributeSet
+     */
     public MazePanel(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         bitmap = Bitmap.createBitmap(1200, 1200, Bitmap.Config.ARGB_8888);
