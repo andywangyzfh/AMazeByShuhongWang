@@ -190,6 +190,9 @@ public class PlayManuallyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 statePlaying.keyDown(Constants.UserInput.ToggleLocalMap);
+                // play sound effect
+                MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.button);
+                mediaPlayer.start();
                 Log.v(log, "Toggled map.");
 //                if (map.isChecked()){
 //                    txtMaze.setText("Map On.");
