@@ -171,22 +171,24 @@ public class GeneratingActivity extends AppCompatActivity implements Order {
 //        MazeFileReader mazeFileReader = new MazeFileReader(filename, new MazePanel(getApplicationContext()));
 //        DataHolder.getInstance().setMazeConfig(mazeFileReader.getMazeConfiguration());
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        skillLevel = sharedPref.getInt("skillLevel", 0);
-        builder = sharedPref.getString("builder", "DFS");
-        boolean perfect = sharedPref.getBoolean("perfect", true);
         int seed = sharedPref.getInt("seed", 13);
         setMazeBuilder(builder);
-        DataHolder.getInstance().setSkillLevel(skillLevel);
-        DataHolder.getInstance().setPerfect(perfect);
         DataHolder.getInstance().setSeed(seed);
 
         Log.v(log, "Maze loaded");
     }
 
+    /**
+     * Check if there exists saved maze
+     * @return true if exist, false if not.
+     */
     public boolean existSavedMaze(){
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         int skill = sharedPref.getInt("skillLevel", 100);
-        return skill < 50;
+        String builder = sharedPref.getString("builder", "SOMETHING");
+        boolean perfect = sharedPref.getBoolean("perfect", true);
+
+        return (skill == this.skillLevel && builder.equals(this.builder) && perfect != this.containRooms);
     }
     /**
      * the internal class for maze generation. Use AsyncTask to generate the maze.
