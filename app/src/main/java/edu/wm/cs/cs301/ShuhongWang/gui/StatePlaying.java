@@ -1,5 +1,8 @@
 package edu.wm.cs.cs301.ShuhongWang.gui;
 
+import android.media.MediaPlayer;
+
+import edu.wm.cs.cs301.ShuhongWang.R;
 import edu.wm.cs.cs301.ShuhongWang.generation.CardinalDirection;
 import edu.wm.cs.cs301.ShuhongWang.generation.Floorplan;
 import edu.wm.cs.cs301.ShuhongWang.generation.Maze;
@@ -397,6 +400,15 @@ public class StatePlaying extends DefaultState {
      * @param dir for current direction, values are either 1 or -1
      */
     synchronized private void rotate(int dir) {
+        // play footstep
+        if (manual){
+            MediaPlayer mediaPlayer = MediaPlayer.create(this.playManuallyActivity, R.raw.footstep);
+            mediaPlayer.start();
+        }
+        else{
+            MediaPlayer mediaPlayer = MediaPlayer.create(this.playAnimationActivity, R.raw.footstep);
+            mediaPlayer.start();
+        }
         final int originalAngle = angle;
         final int steps = 4;
 
@@ -422,6 +434,15 @@ public class StatePlaying extends DefaultState {
      * @param dir, only possible values are 1 (forward) and -1 (backward)
      */
     synchronized private void walk(int dir) {
+        // play footstep
+        if (manual){
+            MediaPlayer mediaPlayer = MediaPlayer.create(this.playManuallyActivity, R.raw.footstep);
+            mediaPlayer.start();
+        }
+        else{
+            MediaPlayer mediaPlayer = MediaPlayer.create(this.playAnimationActivity, R.raw.footstep);
+            mediaPlayer.start();
+        }
     	// check if there is a wall in the way
         if (!checkMove(dir))
             return;

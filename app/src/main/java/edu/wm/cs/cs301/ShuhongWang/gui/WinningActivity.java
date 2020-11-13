@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,8 +40,8 @@ public class WinningActivity extends AppCompatActivity {
         energy = intent.getIntExtra("energyConsumption", 0);
         manual = intent.getBooleanExtra("manual", false);
         Log.v(log, "Received path length: " + String.valueOf(pathLength));
-        Toast.makeText(this, "Received path length: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, "Received shortest path length: " + String.valueOf(shortestPathLength), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Received path length: " + String.valueOf(pathLength), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Received shortest path length: " + String.valueOf(shortestPathLength), Toast.LENGTH_SHORT).show();
         setText();
 
         setButtonPlayAgain();
